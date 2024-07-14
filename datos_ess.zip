@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="ESS | Sikt" />
+    <meta property="og:description" content="ESS | Sikt" />
+    <meta property="og:image" content="https://cms.sikt.no/sites/default/files/2022-12/_DS16722_SCREEN.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <link rel="icon" type="image/ico" href="https://www.europeansocialsurvey.org/sites/default/files/favicon.ico" />
+    <!-- Preload slow-loading bold font -->
+    <link
+      rel="preload"
+      href="/assets/NotoSans-Bold-8a5dedf2.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous" />
+    <!-- Matomo -->
+    <script>
+      var _paq = (window._paq = window._paq || [])
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView'])
+      _paq.push(['enableLinkTracking'])
+      ;(function () {
+        var u = 'https://matomo.sikt.no/'
+        _paq.push(['setTrackerUrl', u + 'matomo.php'])
+        _paq.push(['setSiteId', '51'])
+        var d = document,
+          g = d.createElement('script'),
+          s = d.getElementsByTagName('script')[0]
+        g.async = true
+        g.src = u + 'matomo.js'
+        s.parentNode.insertBefore(g, s)
+      })()
+    </script>
+    <!-- End Matomo Code -->
+    <script type="text/javascript" src="/env.js"></script>
+    <script type="module" crossorigin src="/assets/index-e9045649.js"></script>
+    <link rel="stylesheet" href="/assets/index-b32ca4e1.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    
+  </body>
+</html>
