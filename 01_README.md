@@ -11,6 +11,8 @@ Si no se cargan, los carga del fichero Datos_Brutos_Reto2.csv
 
 1.Cargar_Datos_Brutos
 Intentamos descargar los datos desde ESS pero si hay error porque requiere autenticación los cargamos desde el fichero local
+Generamos dos sub_set de datos, con información territorial o sin ella, para tenerlo en cuenta a la hora del tratamiento.
+Buscamos información sobre a qué año corresponde cada ronda
 
 2.Depuracion_datos
 
