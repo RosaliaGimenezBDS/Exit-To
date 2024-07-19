@@ -1,21 +1,44 @@
 # Exit-To
-Reproducibilidad de un proyecto de Ciencia de Datos
+## Reproducibilidad de un proyecto de Ciencia de Datos
 
-Hemos modificado el nombre del proyecto del Reto 1, de Exit-On, pasa a llamarse Exit-To.
+### INTRODUCCION
 
-El proyecto carga los datos desde la ESS, utilizando el usuario de la autora.
-https://stessdissprodwe.blob.core.windows.net/data/download/4/generate_datafile/a9e7e889540fa08a80265e0f0045377f.zip?st=2024-07-14T20%3A43%3A43Z&se=2024-07-14T21%3A45%3A43Z&sp=r&sv=2023-11-03&sr=b&skoid=1b26ad26-8999-4f74-9562-ad1c57749956&sktid=93a182aa-d7bd-4a74-9fb1-84df14cae517&skt=2024-07-14T20%3A43%3A43Z&ske=2024-07-14T21%3A45%3A43Z&sks=b&skv=2023-11-03&sig=rCnF7EcdRqWeZ6e3%2BUO8O%2BSq7cOicwNbeTycsPO8AoU%3D
+En este proyecto presentamos un panel con datos para la toma de decisiones vocacional que muestra las relaciones entre el bienestar subjetivo de las personas por una parte y otras variables independientes como el género, el tipo de relación laboral y el territorio.
+Disponemos de datos de 10 rondas.
+
+Por distintas razones, el nombre del proyecto del Reto 1, __Exit-On__, ha cambiado a __Exit-To__.
+
+Aunque nos habíamos planteado carga los datos desde la __ESS__, utilizando el usuario de la autora.
 
 Si no se cargan, los carga del fichero Datos_Brutos_Reto2.csv
 
+### CARGA, DEPURACION Y FILTRADO INICIAL DE LOS DATOS
 
-1.Cargar_Datos_Brutos
-Intentamos descargar los datos desde ESS pero si hay error porque requiere autenticación los cargamos desde el fichero local
-Generamos dos sub_set de datos, con información territorial o sin ella, para tenerlo en cuenta a la hora del tratamiento.
-Buscamos información sobre a qué año corresponde cada ronda
+Existen tres ficheros R independientes que se ejecutan con la función source() desde el fichero Panel.rmd
 
-2.Depuracion_datos
+#### 1.Cargar_Datos_Brutos
 
-3.Desc_Datos_Filtrados
+Hemos realizado una cargaprevia de los datos desde ESS con la url: 
+
+Los datos se encuentran en el fichero:  
+
+ESS1e06_7-ESS2e03_6-ESS3e03_7-ESS4e04_6-ESS5e03_5-ESS6e02_6-ESS7e02_3-ESS8e02_3-ESS9e03_2-ESS10SC-subset.csv
+
+Y por facilidad creamos una copia para trabajar con ella llamada Datos_brutos.csv
+
+
+#### 2.Depuracion_datos
+
+
+
+#### 3.Desc_Datos_Filtrados
+
+
+
+### Referencias
+
+#### Paquetes de R utilizados
+
+#### Referencias bibliográficas
 
 
