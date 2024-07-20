@@ -1,0 +1,76 @@
+---
+title: "EXIT-TO  Ejercicio de reproducibilidad"
+author: "Rosalía Giménez"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    social: menu
+    source_code: embed
+---
+
+```{r setup, include=FALSE}
+#Librerias utilizadas
+library(flexdashboard)
+library(tidyverse)
+library(maps)
+library(DT)
+library(lorem)
+library(psych)
+```
+
+```{r}
+#Cargamos los datos
+source("~/Exit-To/02_Datos/Cargar_Datos_Brutos.R")
+source("~/Exit-To/02_Datos/Depuracion_datos.R")
+
+```
+
+Gráficos {data-icon="fa-signal"}
+=======================================================================
+
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
+
+Tablas {data-icon="fa-table"}
+=======================================================================
+
+```{r}
+
+datatable(datos_filtrados,
+          caption = 'Datos de Bienestar subjetivo según tipo de relación laboral',
+          rownames= T,
+          filter= 'top',
+          options= list(pageLenth=25))
+```
+
+
+Acerca del estudio {data-icon="fa-globe"}
+=======================================================================
+
+
+
