@@ -14,7 +14,7 @@ Recordamos el modelo propuesto por Wickham y Grolemund (2017):
 
 
 En este proyecto presentamos un panel con información sobre la relación entre el bienestar subjetivo de las personas y otras variables como son el género, el tipo de relación laboral y el territorio, en España.
-Disponemos de datos de 10 rondas descargados del ESS.
+Disponemos de datos de 10 rondas descargados del ESS Survey (https://www.europeansocialsurvey.org/data/) sobre indicadores sociodemográficos solo para España.
 
 ## OBJETIVOS
 ### Objetivo del Proyecto
@@ -46,7 +46,7 @@ Existen tres ficheros R independientes que se ejecutan con la función source() 
 
 
 Aunque nos habíamos planteado carga los datos desde la __ESS__, utilizando el usuario de la autora. Descartamos esta opción y se carga el fichero descargado previamente "ESS1e06_7-ESS2e03_6-ESS3e03_7-ESS4e04_6-ESS5e03_5-ESS6e02_6-ESS7e02_3-ESS8e02_3-ESS9e03_2-ESS10SC-subset.csv""
-Hemos realizado una cargaprevia de los datos desde ESS con la url: 
+Hemos realizado una carga previa de los datos desde ESS con la url: 
 
 Los datos se encuentran en el fichero:  
 
@@ -64,50 +64,63 @@ RData es un formato de archivo utilizado en el lenguaje de programación R para 
 
 3. **Facilidad de Compartir y Reutilizar**: Facilitan compartir datos y resultados entre diferentes proyectos o colaboradores. Cualquier persona con el archivo RData puede cargarlo en su propio entorno R y acceder a los objetos contenidos en él.
 
-#### Comandos Relacionados con RData
+Para mejorar la eficiencia al cargar datos brutos, por si ya están cargados, cargar un archivo RData en un proyecto de R, si podemos aplicar la mejora se utiliza una combinación de control de flujo con condiciones. 
 
-- **Guardar Objetos en un Archivo RData**:
-  ```R
-  save(obj1, obj2, file = "mi_archivo.RData")
-  ```
-  Este comando guarda los objetos `obj1` y `obj2` en un archivo llamado `mi_archivo.RData`.
 
-- **Cargar Objetos desde un Archivo RData**:
-  ```R
-  load("mi_archivo.RData")
-  ```
-  Este comando carga los objetos almacenados en `mi_archivo.RData` en el entorno de trabajo actual.
+1. **Verificación si los datos ya están cargados**:
+2. **Cargar los datos de acuerdo a las condiciones**:
 
-#### Ejemplo de Uso
 
-Supongamos que tienes un data frame llamado `datos` y una lista llamada `resultados` que deseas guardar y luego reutilizar:
-
-```R
-# Crear algunos datos de ejemplo
-datos <- data.frame(x = 1:10, y = rnorm(10))
-resultados <- list(media = mean(datos$y), sd = sd(datos$y))
-
-# Guardar los objetos en un archivo RData
-save(datos, resultados, file = "mi_datos.RData")
-
-# Más tarde, o en otra sesión de R, puedes cargar los datos
-load("mi_datos.RData")
-
-# Ahora, datos y resultados están disponibles en el entorno
-print(datos)
-print(resultados)
-```
-
-En resumen, los archivos RData son una herramienta poderosa en R para la gestión y reutilización eficiente de objetos y datos.
-
+Con esta estructura, tu código podrá cargar datos de manera eficiente, asegurándose de no recargar datos si ya están disponibles en el entorno o en un archivo RData previamente guardado.
 Aunque en este fichero solamente ejecutamos la carga de los datos, lo mantenemos de manera independiente por su posible evolución futura
 
 
 #### 2.Depuracion_datos
 
 
+Dado que disponemos de un gran volumen de datos, procedemos a eliminar todas las filas con missing values que no podemos completar.
+
+También generaremos un set de datos filtrados con el que generar gráficos más claros para su visualización.
+
+Revisión de las distribuciones de los datos y la existencia de outliers:
+
+VARIABLES DIRECTAS
+
+![VARIABLES DIRECTAS](imgs/vARIABLES_DIRECTAS.png)
+
+En la tabla descriptiva observamos algunos outliers en determinadas variables como 
+    • agea,  valores superiores a 100. 
+    • aesfdrk, gndr, happy y health, valores fuera de la escala que representan que la persona encuestada no ha querido utilizar ninguno de los valores de la escala. No eliminamos pero si filtraremos para crear los análisis y gráficos correspondientes .
+Revisamos los datos para crear un subset de datos filtrados.
+Filtramos y renombramos las variables para una mejor legibilidad.
+
+Agrupamos las columnas age y agea
+Agrupamos regiones y regioaes
+Añadimos una columna año en función del año de la ronda ESS, nos parece una variable de más fácil manejo para el usuario
+Observamos que algunas rondas no disponen de datos sobre la region y generamos dos subconjuntos de datos, con o sin información sobre la región por si posteriormente es de utilidad.
+Generamos un subset de datos llamado __datos_panel__ con las variables que utilizaremos en el panel interactivo y proseguimos con la limpieza de datos.
+
 
 #### 3.Desc_Datos_Filtrados
+
+Eliminamos los outliers para obtener datos descriptivos significativos que faciliten la visualización en el panel
+FELICIDAD <= 10
+RELACION LABORAL <= 3
+EDAD <= 70
+GENERO != 9
+SEGURIDAD <=4
+SALUD <= 5
+
+
+
+DATOS FILTRADOS
+
+![DATOS FILTRADOS](imgs/DATOS_FILTRADOS.png)
+
+
+
+
+
 
 
 

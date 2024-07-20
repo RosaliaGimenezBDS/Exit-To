@@ -5,16 +5,13 @@
 library(dplyr)
 library(readr)
 library(ggplot2)
+library(readr)
+library(curl)
+show_col_types = FALSE
 
 #CARGAMOS LA BASE DE DATOS CON UNA SELECCION AMPLIA DE DATOS QUE NOS PARECEN INTERESANTES
 #REALIZAMOS UN ANALISIS DESCRIPTIVO EXPLORATORIO PARA FAMILIARIZARNOS Y DEPURAR LOS DATOS
-
-library(readr)
-library(curl)
-
-show_col_types = FALSE
-
-datos_brutos <- read_csv("ESS1e06_7-ESS2e03_6-ESS3e03_7-ESS4e04_6-ESS5e03_5-ESS6e02_6-ESS7e02_3-ESS8e02_3-ESS9e03_2-ESS10SC-subset.csv")
+#datos_brutos <- read_csv("ESS1e06_7-ESS2e03_6-ESS3e03_7-ESS4e04_6-ESS5e03_5-ESS6e02_6-ESS7e02_3-ESS8e02_3-ESS9e03_2-ESS10SC-subset.csv")
 
 ##VISUALIZAR LAS VARIABLES SELECCIONADAS
 
@@ -66,16 +63,15 @@ ediciones_sin_region <- datos_sin_region %>%
 
 # Existen otras variables muy interesantes relacionadas con Educación y Empleo que por el momento no sabemos-podemos preprocesar. 
 # Elegimos un subset de datos sencillo, ya planteado en el RETO 1, y si disponemos de más tiempo ampliaremos el alcance del proyecto
-
-colnames(datos)
+#colnames(datos)
 
 #REVISAMOS LAS CARACTERÍSTICAS DE LAS VARIABLES NUMERICAS
 
 # Seleccionamos solo las columnas numéricas
-datos_numericos <- datos %>% select_if(is.numeric)
+#datos_numericos <- datos %>% select_if(is.numeric)
 
 # Creamos la tabla descriptiva
-datos_panel_Des <- describe(datos_numericos)
+#datos_panel_Des <- describe(datos_numericos)
 
 # Mostramos la tabla descriptiva
 #print(datos_panel_Des)
@@ -113,6 +109,7 @@ datos_filtrados <- datos_filtrados %>%
     YEAR=year
   )
 
+
 # Crear la tabla con las medias de las variables agrupadas por año
 medias_por_ano <- datos_filtrados %>%
   group_by(YEAR) %>%
@@ -137,15 +134,15 @@ medias_por_region <- datos_filtrados %>%
 # Seleccionamos solo las columnas numéricas
 #datos_numericos <- datos_panel %>% select_if(is.numeric)
 
-# Creamos la tabla descriptiva
-datos_panel_Des <- describe(datos_panel)
+# Creamos la tabla descriptiva que mostraremos en el panel
+datos_panel_Des <- describe(datos_filtrados)
 
 # Mostramos la tabla descriptiva
 #print(datos_panel_Des)
 
-# Guardar los subconjuntos en archivos CSV para tenerlos disponibles más facilmente desde el panel
+# Guardar los subconjuntos en archivos CSV para tenerlos disponibles más facilmente desde el panel si fuese necesario
 write_csv(datos_con_region, "datos_con_region.csv")
 write_csv(datos_sin_region, "datos_sin_region.csv")
 write_csv(datos_panel, "datos_panel.csv")
 write_csv(datos_filtrados, "datos_filtrados.csv")
-
+write_csv(datos_panel_Des, "datos_panel_Des.csv")
