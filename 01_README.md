@@ -117,11 +117,8 @@ DATOS FILTRADOS
 
 ![DATOS FILTRADOS](imgs/DATOS_FILTRADOS.png)
 
-
-
-
-
-
+Creamos varios subconjuntos de datos para trabajar con ellos en el panel
+Datos filtrados, filtrados con region y sin region.
 
 
 ### Referencias
@@ -131,7 +128,7 @@ DATOS FILTRADOS
 #### Referencias bibliográficas
 
 
-Contenidos para este ddocumento:
+Contenidos para este documento:
 
 1. Definición del Problema
 

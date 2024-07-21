@@ -10,6 +10,13 @@ output:
 runtime: shiny
 ---
 
+```{r}
+install.packages("shiny")
+library(shiny)
+
+```
+
+
 ```{r setup, include=FALSE}
 #Librerias utilizadas
 library(flexdashboard)
@@ -20,16 +27,173 @@ library(lorem)
 library(psych)
 ```
 
-```{r}
+```{r message= FALSE}
 #Cargamos los datos
+#En revisiones posteriores podríamos generar una función que detecte si los datos ya están cargados y no los vuelva a cargar
 source("~/Exit-To/02_Datos/Cargar_Datos_Brutos.R")
 source("~/Exit-To/02_Datos/Depuracion_datos.R")
 
 ```
 
-Gráficos {data-icon="fa-signal"}
+
+Presentación del proyecto {data-icon="fa-rocket"}
 =======================================================================
 
+#Abrir el fichero README
+
+Aquí pondremos un botón para abrir el fichero README
+otro boton para generar unas fichas en las que seleccionar año y territorio teniendo como resultado los niveles de felicidad, salud y seguridad.
+
+
+*Inputs* ´{.sidebar height=400}
+-----------------------------------------------------------------------
+
+*Título del proyecto*= title
+*Autora:*= author
+*Año de creación= 2024*
+
+
+Tabla dinámica de datos {data-icon="fa-table"}
+=======================================================================
+
+```{r}
+
+datatable(datos_tabla_region_categoricos,
+          caption = 'Datos de Bienestar subjetivo según tipo de relación laboral',
+          rownames= T,
+          filter= 'top',
+          options= list(pageLenth=25))
+```
+
+
+
+Tablas descriptivas {data-icon="fa-table"}
+=======================================================================
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Tabla A
+
+
+```{r}
+
+datatable(medias_por_region_year,
+          caption = 'Datos de Bienestar subjetivo según tipo de relación laboral',
+          rownames= T,
+          filter= 'top',
+          options= list(pageLenth=25))
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Tabla B
+
+```{r}
+
+```
+
+### Tabla C
+
+```{r}
+
+```
+
+
+Gráficos descriptivos datos {data-icon="fa-signal"}
+=======================================================================
+
+Column {.sidebar data-height=150}
+-----------------------------------------------------------------------
+
+
+```{r}
+
+selectInput("GENERO",label='Género', choices= c('Ambos','Hombres','Mujeres'),selected='Ambos',width='200px')
+
+selectInput("BIENESTAR_SUBJETIVO",label='Bienestar subjetivo', choices= c('TODO','FELICIDAD','SALUD','SEGURIDAD'),selected='TODO',width='200px')
+
+selectInput("REL_LABORAL",label='Relación Laboral', choices= c('TODAS','Empleados','Autónomos', 'Negocio familiar'),selected='Ambos',width='200px')
+
+selectInput("REGION", "Seleccione una Región:", choices = unique(datos_tabla_region_categoricos$REGION))
+selectInput("AÑO", "Seleccione un Año:", choices = unique(datos_tabla_region_categoricos$YEAR))
+
+
+```
+
+¿Cuál es tu nivel de felicidad de 0 a 10? {data-width=350}
+-----------------------------------------------------------------------
+### Respuesta a la pregunta: ¿Cuál es tu nivel de felicidad de 0 a 10?
+
+```{r}
+
+#install.packages("ggplot2")
+
+# Crear etiquetas para los valores de la variable 'FELICIDAD'
+categorias_happy <- c(
+  "Extremadamente infeliz", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Extremadamente feliz",
+  "Refusal*", "Don't know*", "No answer*"
+)
+
+# Calcular las frecuencias absolutas
+frecuencias_absolutas <- table(datos_panel$happy)
+
+# Calcular las frecuencias relativas
+frecuencias_relativas <- prop.table(frecuencias_absolutas)
+
+# Crear una tabla de frecuencias
+tabla_frecuencias <- data.frame(
+  Valor = names(frecuencias_absolutas),
+  Categoria = categorias_happy[as.numeric(names(frecuencias_absolutas)) + 1],
+  Frecuencia_Absoluta = as.vector(frecuencias_absolutas),
+  Frecuencia_Relativa = round(as.vector(frecuencias_relativas), 2)
+)
+
+# Ordenar la tabla por el valor original de 'happy'
+tabla_frecuencias <- tabla_frecuencias %>%
+  arrange(as.numeric(Valor))
+
+# Imprimir la tabla de frecuencias ordenada
+#print(tabla_frecuencias)
+
+# Crear el histograma con ggplot2
+ggplot(datos_panel, aes(x = factor(happy, levels = 0:10))) +
+  geom_histogram(stat = "count", aes(fill = as.numeric(happy)), color = "black", binwidth = 1) +
+  scale_fill_gradient(low = "blue", high = "red", name = "Felicidad") +
+  labs(title = "Distribución de la Felicidad", x = "Nivel de Felicidad", y = "Frecuencia") +
+ # theme_minimal() +
+  scale_x_discrete(labels = categorias_happy[1:11])  # Solo las categorías del 0 al 10
+
+
+```
+
+Correlaciones entre las variables FELICIDAD, SALUD y SEGURIDAD {data-width=350}
+--------------------------------------------------------------------------------
+
+
+
+Gráficos dinámicos {data-icon="fa-signal"}
+=======================================================================
+
+
+Column {.sidebar data-height=150}
+-----------------------------------------------------------------------
+
+
+```{r}
+
+selectInput("GENERO",label='Género', choices= c('Ambos','Hombres','Mujeres'),selected='Ambos',width='200px')
+
+selectInput("BIENESTAR_SUBJETIVO",label='Bienestar subjetivo', choices= c('TODO','FELICIDAD','SALUD','SEGURIDAD'),selected='TODO',width='200px')
+
+selectInput("REL_LABORAL",label='Relación Laboral', choices= c('TODAS','Empleados','Autónomos', 'Negocio familiar'),selected='Ambos',width='200px')
+
+selectInput("REGION", "Seleccione una Región:", choices = unique(datos_tabla_region_categoricos$REGION))
+selectInput("AÑO", "Seleccione un Año:", choices = unique(datos_tabla_region_categoricos$YEAR))
+
+```
 
 
 Column {data-width=650}
@@ -38,6 +202,9 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
+#Mapa de felicidad por años
+
+
 
 ```
 
@@ -55,23 +222,6 @@ Column {data-width=350}
 ```{r}
 
 ```
-
-
-Tablas {data-icon="fa-table"}
-=======================================================================
-
-```{r}
-
-datatable(datos_filtrados,
-          caption = 'Datos de Bienestar subjetivo según tipo de relación laboral',
-          rownames= T,
-          filter= 'top',
-          options= list(pageLenth=25))
-```
-
-
-Acerca del estudio {data-icon="fa-globe"}
-=======================================================================
 
 
 
