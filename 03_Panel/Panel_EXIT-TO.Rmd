@@ -11,7 +11,8 @@ runtime: shiny
 ---
 
 ```{r}
-install.packages("shiny")
+
+if (!require("shiny")) install.packages("shiny", dependencies = TRUE)
 library(shiny)
 
 ```
@@ -36,7 +37,7 @@ source("~/Exit-To/02_Datos/Depuracion_datos.R")
 ```
 
 
-Presentación del proyecto {data-icon="fa-rocket"}
+1 - Presentación del proyecto {data-icon="fa-rocket"}
 =======================================================================
 
 #Abrir el fichero README
@@ -53,13 +54,13 @@ otro boton para generar unas fichas en las que seleccionar año y territorio ten
 *Año de creación= 2024*
 
 
-Tabla dinámica de datos {data-icon="fa-table"}
+2 - Tabla dinámica de datos {data-icon="fa-table"}
 =======================================================================
 
 ```{r}
 
 datatable(datos_tabla_region_categoricos,
-          caption = 'Datos de Bienestar subjetivo según tipo de relación laboral',
+          caption = 'Selección de datos sobre Bienestar Subjetivo en las encuestas del ESS en España',
           rownames= T,
           filter= 'top',
           options= list(pageLenth=25))
@@ -67,7 +68,7 @@ datatable(datos_tabla_region_categoricos,
 
 
 
-Tablas descriptivas {data-icon="fa-table"}
+3 - Tablas descriptivas {data-icon="fa-table"}
 =======================================================================
 
 Column {data-width=650}
@@ -102,43 +103,27 @@ Column {data-width=350}
 ```
 
 
-Gráficos descriptivos datos {data-icon="fa-signal"}
+4 - Gráficas descriptivas {data-icon="fa-signal"}
 =======================================================================
 
-Column {.sidebar data-height=150}
------------------------------------------------------------------------
-
-
-```{r}
-
-selectInput("GENERO",label='Género', choices= c('Ambos','Hombres','Mujeres'),selected='Ambos',width='200px')
-
-selectInput("BIENESTAR_SUBJETIVO",label='Bienestar subjetivo', choices= c('TODO','FELICIDAD','SALUD','SEGURIDAD'),selected='TODO',width='200px')
-
-selectInput("REL_LABORAL",label='Relación Laboral', choices= c('TODAS','Empleados','Autónomos', 'Negocio familiar'),selected='Ambos',width='200px')
-
-selectInput("REGION", "Seleccione una Región:", choices = unique(datos_tabla_region_categoricos$REGION))
-selectInput("AÑO", "Seleccione un Año:", choices = unique(datos_tabla_region_categoricos$YEAR))
-
-
-```
 
 ¿Cuál es tu nivel de felicidad de 0 a 10? {data-width=350}
 -----------------------------------------------------------------------
 ### Respuesta a la pregunta: ¿Cuál es tu nivel de felicidad de 0 a 10?
 
 ```{r}
+# Instalar y cargar librerías necesarias
+if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+if (!require("dplyr")) install.packages("dplyr", dependencies = TRUE)
 
-#install.packages("ggplot2")
+library(ggplot2)
+library(dplyr)
 
 # Crear etiquetas para los valores de la variable 'FELICIDAD'
-categorias_happy <- c(
-  "Extremadamente infeliz", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Extremadamente feliz",
-  "Refusal*", "Don't know*", "No answer*"
-)
+categorias_FELICIDAD <- c("Extremadamente infeliz", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Extremadamente feliz")
 
 # Calcular las frecuencias absolutas
-frecuencias_absolutas <- table(datos_panel$happy)
+frecuencias_absolutas <- table(datos_panel_filtrados$FELICIDAD)
 
 # Calcular las frecuencias relativas
 frecuencias_relativas <- prop.table(frecuencias_absolutas)
@@ -146,52 +131,110 @@ frecuencias_relativas <- prop.table(frecuencias_absolutas)
 # Crear una tabla de frecuencias
 tabla_frecuencias <- data.frame(
   Valor = names(frecuencias_absolutas),
-  Categoria = categorias_happy[as.numeric(names(frecuencias_absolutas)) + 1],
+  Categoria = categorias_FELICIDAD[as.numeric(names(frecuencias_absolutas)) + 1],
   Frecuencia_Absoluta = as.vector(frecuencias_absolutas),
   Frecuencia_Relativa = round(as.vector(frecuencias_relativas), 2)
 )
 
-# Ordenar la tabla por el valor original de 'happy'
+# Ordenar la tabla por el valor original de 'FELICIDAD'
 tabla_frecuencias <- tabla_frecuencias %>%
   arrange(as.numeric(Valor))
 
-# Imprimir la tabla de frecuencias ordenada
-#print(tabla_frecuencias)
-
 # Crear el histograma con ggplot2
-ggplot(datos_panel, aes(x = factor(happy, levels = 0:10))) +
-  geom_histogram(stat = "count", aes(fill = as.numeric(happy)), color = "black", binwidth = 1) +
-  scale_fill_gradient(low = "blue", high = "red", name = "Felicidad") +
+ggplot(datos_panel_filtrados, aes(x = factor(FELICIDAD, levels = 0:10))) +
+  geom_histogram(stat = "count", fill = "blue", color = "black", binwidth = 1) +
   labs(title = "Distribución de la Felicidad", x = "Nivel de Felicidad", y = "Frecuencia") +
- # theme_minimal() +
-  scale_x_discrete(labels = categorias_happy[1:11])  # Solo las categorías del 0 al 10
-
+  theme_minimal() +
+  scale_x_discrete(labels = categorias_FELICIDAD[1:10])  # Solo las categorías del 0 al 10
 
 ```
 
-Correlaciones entre las variables FELICIDAD, SALUD y SEGURIDAD {data-width=350}
---------------------------------------------------------------------------------
 
 
+Evolucion de la felicidad, la salud y la seguridad en todos los años de la encuesta ESS {data-width=350}
+--------------------------------------------------------------------------------------------------------
+### Evolución de la Felicidad
 
-Gráficos dinámicos {data-icon="fa-signal"}
+```{r}
+if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+if (!require("dplyr")) install.packages("dplyr", dependencies = TRUE)
+if (!require("tidyr")) install.packages("tidyr", dependencies = TRUE)
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Supongamos que tus datos están en un dataframe llamado `datos_panel_filtrados`
+# y tienen las columnas `YEAR` (años del ESS) y `FELICIDAD` (niveles de felicidad).
+
+# Transformamos los datos en el formato necesario
+datos_aggregados <- datos_panel_filtrados %>%
+  group_by(YEAR, FELICIDAD) %>%
+  summarise(count = n()) %>%
+  ungroup()
+
+# Aseguramos que los niveles de felicidad están en el orden correcto y que están todos presentes
+datos_aggregados <- datos_aggregados %>%
+  mutate(FELICIDAD = factor(FELICIDAD, levels = c(0:10), 
+                            labels = c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Extremadamente feliz")))
+
+# Convertimos a un formato ancho
+datos_wide <- datos_aggregados %>%
+  pivot_wider(names_from = FELICIDAD, values_from = count, values_fill = list(count = 0))
+
+# Preparamos los datos para el gráfico de área apilada
+datos_area <- datos_wide %>%
+  pivot_longer(cols = -YEAR, names_to = "FELICIDAD", values_to = "count")
+
+# Ordenamos los niveles de felicidad de manera que los niveles más bajos estén en la parte inferior del gráfico
+datos_area <- datos_area %>%
+  mutate(FELICIDAD = factor(FELICIDAD, levels = rev(levels(factor(datos_area$FELICIDAD)))))
+
+# Graficamos el área apilada
+ggplot(datos_area, aes(x = YEAR, y = count, fill = FELICIDAD)) +
+  geom_area() +
+  scale_fill_brewer(palette = "Spectral", direction = -1) +
+  labs(title = "Evolución de la Felicidad en los años del ESS",
+       x = "Año",
+       y = "Frecuencia",
+       fill = "Nivel de Felicidad") +
+  theme_minimal()
+```
+
+
+5 - Gráfico dinámico {data-icon="fa-signal"}
 =======================================================================
-
 
 Column {.sidebar data-height=150}
 -----------------------------------------------------------------------
 
-
 ```{r}
 
-selectInput("GENERO",label='Género', choices= c('Ambos','Hombres','Mujeres'),selected='Ambos',width='200px')
+#ESTE AÚN NO MUESTRA LOS DATOS CORRECTAMENTE COMO EL ANTERIOR ??
 
-selectInput("BIENESTAR_SUBJETIVO",label='Bienestar subjetivo', choices= c('TODO','FELICIDAD','SALUD','SEGURIDAD'),selected='TODO',width='200px')
+#selectInput("GENERO",label='Género', choices= c('Ambos','Hombres','Mujeres'),selected='Ambos',width='200px')
 
-selectInput("REL_LABORAL",label='Relación Laboral', choices= c('TODAS','Empleados','Autónomos', 'Negocio familiar'),selected='Ambos',width='200px')
+#selectInput("BIENESTAR_SUBJETIVO",label='Bienestar subjetivo', choices= #c('TODO','FELICIDAD','SALUD','SEGURIDAD'),selected='TODO',width='200px')
 
-selectInput("REGION", "Seleccione una Región:", choices = unique(datos_tabla_region_categoricos$REGION))
-selectInput("AÑO", "Seleccione un Año:", choices = unique(datos_tabla_region_categoricos$YEAR))
+#selectInput("REL_LABORAL",label='Relación Laboral', choices= c('TODAS','Empleados','Autónomos', 'Negocio familiar'),selected='Ambos',width='200px')
+
+#selectInput("REGION", "Seleccione una Región:", choices = unique(datos_tabla_region_categoricos$REGION))
+#selectInput("AÑO", "Seleccione un Año:", choices = unique(datos_tabla_region_categoricos$YEAR))
+
+selectInput("variable", "Selecciona el Indicador:",
+                  choices = c("Felicidad" = "FELICIDAD", "Salud" = "SALUD", "Seguridad" = "SEGURIDAD"),
+                  selected = "FELICIDAD")  # Establece FELICIDAD como valor predeterminado
+
+sliderInput("yearRange", "Rango de Años:",
+                  min = min(datos_panel_filtrados$YEAR), max = max(datos_panel_filtrados$YEAR),
+                  value = c(min(datos_panel_filtrados$YEAR), max(datos_panel_filtrados$YEAR)),
+                  step = 1, sep = "")
+
+checkboxGroupInput("years", "Selecciona los Años:",
+                         choices = unique(datos_panel_filtrados$YEAR),
+                         selected = unique(datos_panel_filtrados$YEAR))
+
+actionButton("selectAll", "Seleccionar Todos")
 
 ```
 
@@ -199,29 +242,66 @@ selectInput("AÑO", "Seleccione un Año:", choices = unique(datos_tabla_region_c
 Column {data-width=650}
 -----------------------------------------------------------------------
 
-### Chart A
+### Evolución del nivel de `r reactive(input$variable)`
 
 ```{r}
-#Mapa de felicidad por años
+#Mapa dinámico por años
 
-
+ renderPlot({
+    # Filtramos los datos según los años seleccionados
+    if (is.null(input$years)) {
+      datos_filtrados <- datos_panel_filtrados
+    } else {
+      datos_filtrados <- datos_panel_filtrados %>%
+        filter(YEAR %in% input$years)
+    }
+    
+    # Transformamos los datos en el formato necesario
+    datoss_aggregados <- datos_filtrados %>%
+      group_by(YEAR, !!sym(input$variable)) %>%
+      summarise(count = n()) %>%
+      ungroup()
+    
+    # Aseguramos que los niveles del indicador están en el orden correcto y que están todos presentes
+    if (input$variable == "FELICIDAD") {
+      levels_order <- c(0:10)
+      labels_order <- c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Extremadamente feliz")
+    } else if (input$variable == "SALUD") {
+      levels_order <- c(1:5)  
+      labels_order <- c("Muy buena", "Buena", "Normal", "Mala", "Muy mala")
+    } else if (input$variable == "SEGURIDAD") {
+      levels_order <- c(1:4)  
+      labels_order <- c("Muy seguro", "Seguro", "Inseguro", "Muy Inseguro")
+    }
+    
+    datoss_aggregados <- datoss_aggregados %>%
+      mutate(Indicador = factor(!!sym(input$variable), levels = levels_order, labels = labels_order))
+    
+    # Convertimos a un formato ancho
+    datoss_wide <- datoss_aggregados %>%
+      pivot_wider(names_from = Indicador, values_from = count, values_fill = list(count = 0))
+    
+    # Preparamos los datos para el gráfico de área apilada
+    datoss_area <- datoss_wide %>%
+      pivot_longer(cols = -YEAR, names_to = "Indicador", values_to = "count")
+    
+    # Ordenamos los niveles del indicador de manera que los niveles más bajos estén en la parte inferior del gráfico
+    datoss_area <- datoss_area %>%
+      mutate(Indicador = factor(Indicador, levels = rev(levels(factor(datoss_area$Indicador)))))
+    
+    # Graficamos el área apilada
+    ggplot(datoss_area, aes(x = YEAR, y = count, fill = Indicador)) +
+      geom_area() +
+      scale_fill_brewer(palette = "Spectral", direction = -1) +
+      labs(title = paste("Evolución de", input$variable, "en los Años del ESS"),
+           x = "Año",
+           y = "Frecuencia",
+           fill = input$variable) +
+      theme_minimal()
+  })
 
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Chart B
-
-```{r}
-
-```
-
-### Chart C
-
-```{r}
-
-```
 
 
 
