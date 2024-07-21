@@ -40,10 +40,41 @@ source("~/Exit-To/02_Datos/Depuracion_datos.R")
 1 - Presentación del proyecto {data-icon="fa-rocket"}
 =======================================================================
 
+*Inputs* ´{.sidebar height=400}
+-----------------------------------------------------------------------
+
+Este documento fue creado por paste(author) en la fecha print(format(Sys.Date(), "%d/%m/%Y")
+
+
+*Observaciones* ´{ widht=400}
+-----------------------------------------------------------------------
+
+_Resumen de Datos_
+
+El número total de observaciones inicial en el conjunto de datos es de print(nrow(datos)), pero para este panel lo hemos reducido a
+print(nrow(datos_tabla_region_categoricos)) para una mayor agilidad en la ejecución del panel. En el caso de los gráficos, mantenemos un número de print(nrow(datos_tabla)) para permitir la observación de una evolución de las variables.
+
+
 #Abrir el fichero README
 
-Aquí pondremos un botón para abrir el fichero README
-otro boton para generar unas fichas en las que seleccionar año y territorio teniendo como resultado los niveles de felicidad, salud y seguridad.
+Si lo deseas puedes acceder al fichero README
+
+También puedes generar unas fichas en las que seleccionar año y territorio teniendo como resultado los niveles de felicidad, salud y seguridad.
+
+```{r}
+
+actionButton("showReadme", "Abrir README")
+
+observeEvent(input$showReadme, {
+    showModal(modalDialog(
+      title = "Contenido del README",
+      includeMarkdown("01_README.md"),
+      easyClose = TRUE,
+      footer = NULL
+    ))
+  })
+```
+
 
 
 *Inputs* ´{.sidebar height=400}
@@ -145,7 +176,7 @@ ggplot(datos_panel_filtrados, aes(x = factor(FELICIDAD, levels = 0:10))) +
   geom_histogram(stat = "count", fill = "blue", color = "black", binwidth = 1) +
   labs(title = "Distribución de la Felicidad", x = "Nivel de Felicidad", y = "Frecuencia") +
   theme_minimal() +
-  scale_x_discrete(labels = categorias_FELICIDAD[1:10])  # Solo las categorías del 0 al 10
+  scale_x_discrete(labels = categorias_FELICIDAD[0:11])  # Solo las categorías del 0 al 10
 
 ```
 
