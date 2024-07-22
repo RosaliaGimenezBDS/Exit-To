@@ -1,0 +1,82 @@
+---
+title: "Presentación Exit-To"
+author: "Rosalía Giménez"
+date: "`r Sys.Date()`"
+output: powerpoint_presentation
+---
+
+
+```{r echo=FALSE, warning=FALSE, results='hide', message=FALSE}
+#Cargamos los datos
+#En revisiones posteriores podríamos generar una función que detecte si los datos ya están cargados y no los vuelva a cargar
+source("~/Exit-To/02_Datos/Cargar_Datos_Brutos.R")
+source("~/Exit-To/02_Datos/Depuracion_datos.R")
+```
+
+## Índice de la presentación
+
+- Tabla
+- Gráfico
+- Conclusiones
+
+## Datos generales sobre la muestra
+
+El número de datos es de 
+
+```{r echo = FALSE}
+#summary(cars)
+datos_encuesta<-nrow(datos)
+print(datos_encuesta)
+
+```
+
+## Gráfica de la evolución de la felicidad en las sucesivas encuestas del ESS
+
+```{r echo=FALSE, warning=FALSE, message=FALSE , results='hide'}
+
+if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+if (!require("dplyr")) install.packages("dplyr", dependencies = TRUE)
+if (!require("tidyr")) install.packages("tidyr", dependencies = TRUE)
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Supongamos que tus datos están en un dataframe llamado `datos_panel_filtrados`
+# y tienen las columnas `YEAR` (años del ESS) y `FELICIDAD` (niveles de felicidad).
+
+# Transformamos los datos en el formato necesario
+datos_aggregados <- datos_panel_filtrados %>%
+  group_by(YEAR, FELICIDAD) %>%
+  summarise(count = n()) %>%
+  ungroup()
+
+# Aseguramos que los niveles de felicidad están en el orden correcto y que están todos presentes
+datos_aggregados <- datos_aggregados %>%
+  mutate(FELICIDAD = factor(FELICIDAD, levels = c(0:10), 
+                            labels = c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Extremadamente feliz")))
+
+# Convertimos a un formato ancho
+datos_wide <- datos_aggregados %>%
+  pivot_wider(names_from = FELICIDAD, values_from = count, values_fill = list(count = 0))
+
+# Preparamos los datos para el gráfico de área apilada
+datos_area <- datos_wide %>%
+  pivot_longer(cols = -YEAR, names_to = "FELICIDAD", values_to = "count")
+
+# Ordenamos los niveles de felicidad de manera que los niveles más bajos estén en la parte inferior del gráfico
+datos_area <- datos_area %>%
+  mutate(FELICIDAD = factor(FELICIDAD, levels = rev(levels(factor(datos_area$FELICIDAD)))))
+
+# Graficamos el área apilada
+ggplot(datos_area, aes(x = YEAR, y = count, fill = FELICIDAD)) +
+  geom_area() +
+  scale_fill_brewer(palette = "Spectral", direction = -1) +
+  labs(title = "Evolución de la Felicidad en los años del ESS",
+       x = "Año",
+       y = "Frecuencia",
+       fill = "Nivel de Felicidad") +
+  theme_minimal()
+```
+
+
