@@ -43,19 +43,7 @@ source("~/Exit-To/02_Datos/Depuracion_datos.R")
 *Inputs* ´{.sidebar height=400}
 -----------------------------------------------------------------------
 
-Este documento fue creado por paste(author) en la fecha print(format(Sys.Date(), "%d/%m/%Y")
-
-
-*Observaciones* ´{ widht=400}
------------------------------------------------------------------------
-
-_Resumen de Datos_
-
-El número total de observaciones inicial en el conjunto de datos es de print(nrow(datos)), pero para este panel lo hemos reducido a
-print(nrow(datos_tabla_region_categoricos)) para una mayor agilidad en la ejecución del panel. En el caso de los gráficos, mantenemos un número de print(nrow(datos_tabla)) para permitir la observación de una evolución de las variables.
-
-
-#Abrir el fichero README
+Este documento fue creado por *Rosalía Giménez*  en el año __2024__
 
 Si lo deseas puedes acceder al fichero README
 
@@ -77,12 +65,6 @@ observeEvent(input$showReadme, {
 
 
 
-*Inputs* ´{.sidebar height=400}
------------------------------------------------------------------------
-
-*Título del proyecto*= title
-*Autora:*= author
-*Año de creación= 2024*
 
 
 2 - Tabla dinámica de datos {data-icon="fa-table"}
@@ -102,11 +84,10 @@ datatable(datos_tabla_region_categoricos,
 3 - Tablas descriptivas {data-icon="fa-table"}
 =======================================================================
 
-Column {data-width=650}
+Column {data-width=550}
 -----------------------------------------------------------------------
 
 ### Tabla A
-
 
 ```{r}
 
@@ -118,28 +99,19 @@ datatable(medias_por_region_year,
 ```
 
 
-Column {data-width=350}
+Column {data-width=450}
 -----------------------------------------------------------------------
 
-### Tabla B
+### Tabla B {height=400}
 
 ```{r}
-
+datatable(datos_tabla_informe,
+          caption = 'Datos estadísticos resumen',
+          rownames= T,
+          #filter= 'top',
+          options= list(pageLenth=25))
 ```
 
-### Tabla C
-
-```{r}
-
-```
-
-
-4 - Gráficas descriptivas {data-icon="fa-signal"}
-=======================================================================
-
-
-¿Cuál es tu nivel de felicidad de 0 a 10? {data-width=350}
------------------------------------------------------------------------
 ### Respuesta a la pregunta: ¿Cuál es tu nivel de felicidad de 0 a 10?
 
 ```{r}
@@ -180,10 +152,14 @@ ggplot(datos_panel_filtrados, aes(x = factor(FELICIDAD, levels = 0:10))) +
 
 ```
 
+4 - Gráficas descriptivas {data-icon="fa-signal"}
+=======================================================================
 
 
-Evolucion de la felicidad, la salud y la seguridad en todos los años de la encuesta ESS {data-width=350}
---------------------------------------------------------------------------------------------------------
+¿Cuál es tu nivel de felicidad de 0 a 10? {data-width=350}
+-----------------------------------------------------------------------
+
+
 ### Evolución de la Felicidad
 
 ```{r}
@@ -233,6 +209,117 @@ ggplot(datos_area, aes(x = YEAR, y = count, fill = FELICIDAD)) +
 ```
 
 
+
+Evolucion de la felicidad, la salud y la seguridad en todos los años de la encuesta ESS {data-width=350}
+--------------------------------------------------------------------------------------------------------
+
+### Evolución de la SALUD
+
+```{r}
+# Instalar y cargar paquetes necesarios
+if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+if (!require("dplyr")) install.packages("dplyr", dependencies = TRUE)
+if (!require("tidyr")) install.packages("tidyr", dependencies = TRUE)
+if (!require("RColorBrewer")) install.packages("RColorBrewer", dependencies = TRUE)
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(RColorBrewer)  # Para paletas de colores
+
+# Supongamos que tus datos están en un dataframe llamado `datos_panel_filtrados`
+# y tienen las columnas `YEAR` (años del ESS) y `SALUD` (niveles de salud).
+
+# Transformamos los datos en el formato necesario
+datos_salud_agregados <- datos_panel_filtrados %>%
+  group_by(YEAR, SALUD) %>%
+  summarise(count = n(), .groups = 'drop')
+
+# Aseguramos que los niveles de salud están en el orden correcto y que están todos presentes
+datos_salud_agregados <- datos_salud_agregados %>%
+  mutate(SALUD = factor(SALUD, levels = c(1, 2, 3, 4, 5), 
+                        labels = c("Muy buena", "Buena", "Normal", "Mala", "Muy mala")))
+
+# Convertimos a un formato ancho
+datos_wide <- datos_salud_agregados %>%
+  pivot_wider(names_from = SALUD, values_from = count, values_fill = list(count = 0))
+
+# Preparamos los datos para el gráfico de área apilada
+datos_area <- datos_wide %>%
+  pivot_longer(cols = -YEAR, names_to = "SALUD", values_to = "count")
+
+# Ordenamos los niveles de salud de manera que los niveles más bajos estén en la parte inferior del gráfico
+datos_area <- datos_area %>%
+  mutate(SALUD = factor(SALUD, levels = c("Muy buena", "Buena", "Normal", "Mala", "Muy mala")))
+
+# Graficamos el área apilada con gradación de colores azules
+ggplot(datos_area, aes(x = YEAR, y = count, fill = SALUD)) +
+  geom_area() +
+  scale_fill_manual(values = c("#cce5ff", "#99c2ff", "#66b3ff", "#3399ff", "#007bff")) +  # Gradación de azules
+  labs(title = "Evolución de la Salud en los años del ESS",
+       x = "Año",
+       y = "Frecuencia",
+       fill = "Nivel de Salud") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+
+```
+
+### Evolución de la SEGURIDAD
+
+```{r}
+# Instalar y cargar paquetes necesarios
+if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+if (!require("dplyr")) install.packages("dplyr", dependencies = TRUE)
+if (!require("tidyr")) install.packages("tidyr", dependencies = TRUE)
+if (!require("RColorBrewer")) install.packages("RColorBrewer", dependencies = TRUE)
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(RColorBrewer)  # Para paletas de colores
+
+# Supongamos que tus datos están en un dataframe llamado `datos_panel_filtrados`
+# y tienen las columnas `YEAR` (años del ESS) y `SEGURIDAD` (niveles de seguridad).
+
+# Transformamos los datos en el formato necesario
+datos_seguridad_agregados <- datos_panel_filtrados %>%
+  group_by(YEAR, SEGURIDAD) %>%
+  summarise(count = n(), .groups = 'drop')
+
+# Aseguramos que los niveles de seguridad están en el orden correcto y que están todos presentes
+datos_seguridad_agregados <- datos_seguridad_agregados %>%
+  mutate(SEGURIDAD = factor(SEGURIDAD, levels = c(1, 2, 3, 4), 
+                             labels = c("Muy segura", "Segura", "Insegura", "Muy insegura")))
+
+# Convertimos a un formato ancho
+datos_wide <- datos_seguridad_agregados %>%
+  pivot_wider(names_from = SEGURIDAD, values_from = count, values_fill = list(count = 0))
+
+# Preparamos los datos para el gráfico de área apilada
+datos_area <- datos_wide %>%
+  pivot_longer(cols = -YEAR, names_to = "SEGURIDAD", values_to = "count")
+
+# Ordenamos los niveles de seguridad de manera que los niveles más bajos estén en la parte inferior del gráfico
+datos_area <- datos_area %>%
+  mutate(SEGURIDAD = factor(SEGURIDAD, levels = c("Muy segura", "Segura", "Insegura", "Muy insegura")))
+
+# Graficamos el área apilada con gradación de colores verdes
+ggplot(datos_area, aes(x = YEAR, y = count, fill = SEGURIDAD)) +
+  geom_area() +
+  scale_fill_manual(values = c("#e5f5e0", "#a1d99b", "#31a354", "#006d2c")) +  # Gradación de verdes
+  labs(title = "Evolución de la Seguridad en los años del ESS",
+       x = "Año",
+       y = "Frecuencia",
+       fill = "Nivel de Seguridad") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+```
+
+
+
 5 - Gráfico dinámico {data-icon="fa-signal"}
 =======================================================================
 
@@ -270,7 +357,7 @@ actionButton("selectAll", "Seleccionar Todos")
 ```
 
 
-Column {data-width=650}
+Column {data-width=350}
 -----------------------------------------------------------------------
 
 ### Evolución del nivel de `r reactive(input$variable)`
@@ -332,7 +419,6 @@ Column {data-width=650}
   })
 
 ```
-
 
 
 

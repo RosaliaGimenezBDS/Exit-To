@@ -129,7 +129,6 @@ datos_panel_Des <- describe(datos_panel_filtrados)
 
 #Para mejorar la visualización de los datos en la tabla transformamos datos numéricos en su correspondiente categoría
 #datos_tabla contiene los datos para las tablas del panel ya que están en formato categórico, sin outliers
-# FACTORIZACIÓN
 
 datos_tabla<- datos_panel_filtrados
 
@@ -221,7 +220,12 @@ datos_tabla_region_numericos<- datos_panel_filtrados %>% filter(!is.na(REGION))
 #Para mostrar en tablas
 datos_tabla_region_categoricos<- datos_tabla %>% filter(!is.na(REGION))
 
-# Guardar los subconjuntos en archivos CSV para tenerlos disponibles más facilmente desde el panel si fuese necesario
+# Convertir a DataFrame si es necesario
+datos_tabla_informe <- as.data.frame(datos_tabla_region_numericos)
+
+write_csv(datos_tabla_informe, "datos_tabla_informe.csv")
+
+
 #write_csv(datos_con_region, "datos_con_region.csv")
 #write_csv(datos_sin_region, "datos_sin_region.csv")
 #write_csv(datos_panel, "datos_panel.csv")

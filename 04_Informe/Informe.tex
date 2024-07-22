@@ -1,0 +1,82 @@
+\documentclass{article}
+
+\usepackage{blindtext}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{blindtext}
+
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontec}
+
+\usepackage{geometry}
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+}
+
+\renewcommand´{\refname}{Referencias}
+\renewcommand´{\tablename}{Tabla}
+\renewcommand´{\partname}{Bloque}
+
+\title´{Exit-To}
+\author´{Rosalía Giménez}
+\date´{2024}
+
+
+
+\usepackage{Sweave}
+\begin{document}
+\maketitle
+
+\begin{multicols}{2}
+
+\input{Informe-concordance}
+
+\section{Introducción}
+
+
+\section{Tablas}
+
+
+\begin{Schunk}
+\begin{Sinput}
+> if (!require("tinytex")) {
++   install.packages("tinytex")
++   library("tinytex")
++ } else {
++   library("tinytex")
++ }
+> 
+\end{Sinput}
+\end{Schunk}
+
+
+\begin{Schunk}
+\begin{Sinput}
+> # Establece un mirror de CRAN
+> #options(repos = c(CRAN = "https://cloud.r-project.org"))
+> 
+> # Instala y carga las librerías necesarias
+> if (!require("knitr")) install.packages("knitr")
+> if (!require("tinytex")) {
++   install.packages("tinytex")
++   tinytex::install_tinytex()
++ }
+> library(knitr)
+> library(tinytex)
+> # Verifica que tinytex esté instalado correctamente
+> tinytex::is_tinytex()
+\end{Sinput}
+\begin{Soutput}
+[1] FALSE
+\end{Soutput}
+\begin{Sinput}
+> 
+> 
+\end{Sinput}
+\end{Schunk}
+
+
+\end{document}
