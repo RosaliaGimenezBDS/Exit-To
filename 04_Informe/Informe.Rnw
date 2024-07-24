@@ -1,13 +1,11 @@
 \documentclass{report}
 
-
 \usepackage{blindtext}
 \usepackage{multicol}
 \usepackage{amsmath}
 \usepackage{blindtext}
 
 \usepackage[spanish]{babel}
-
 
 \usepackage{geometry}
 \geometry{
@@ -16,7 +14,6 @@
  left=20mm,
  top=20mm,
 }
-
 
 \renewcommand{\tablename}{Tabla}
 \renewcommand{\partname}{Bloque}
@@ -28,12 +25,13 @@
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
+
 \maketitle
 
 % Insertar la tabla de contenidos
 \tableofcontents
 
-\section{Introducción}
+\section*{Introducción}
 \normalsize
 \begin{multicols}{2}
 En este informe se describe el diseño de un panel de soporte para la toma de decisiones educativas
@@ -70,14 +68,14 @@ Para indagar en este aspecto necesitamos datos sobre nivel de estudios y bienest
 Datos que hemos encontrado en el ESS Data Porta l (https://ess.sikt.no/en/?tab=overview)
 \end{multicols}
 
-\section{Tabla}
+\section*{Tabla}
 
 \begin{figure}[h!]
 \caption{Valores estadísticos de las principales variables del estudio}
 \includegraphics[scale=0.8]{DATOS_FILTRADOS.png}
 \end{figure}
 
-\section{Gráfico}
+\section*{Gráfico}
 
 << echo=FALSE>>=
 #Cargamos los datos
@@ -138,19 +136,21 @@ ggplot(datos_area, aes(x = YEAR, y = count, fill = FELICIDAD)) +
 @
 
 
-\section{Conclusiones}
+\section*{Conclusiones}
 
-Al iniciar este reto nos planteamos una serie de preguntas:
+En este estudio, hemos dispuesto de \Sexpr{nrow(datos_panel_filtrados)} sujetos encuestados.
+
+Al iniciar reto nos planteamos una serie de preguntas:
 
 \begin{itemize}
-\item \bf ¿Quienes son los más felices? Los empleados, los autónomos o los que trabajan en un negocio
-familiar? ¿Hay diferencias según el genero?
+\item \textbf{¿Quienes son los más felices? Los empleados, los autónomos o los que trabajan en un negocio
+familiar? ¿Hay diferencias según el genero?}
 \item ¿Cómo varían la felicidad, salud y seguridad en las diferentes regiones en los últimos años?
 \item ¿En qué regiones viven las personas más infelices?
 \item ¿Qué regiones presentan niveles más altos de personas que se sienten inseguras?
 \item ¿Cómo podría afectar mi elección académica a mi calidad de vida y felicidad a largo plazo?
-\item \bf ¿Qué nivel de felicidad reportan las personas que han elegido un modelo determinado de relación
-laboral?
+\item \textbf{¿Qué nivel de felicidad reportan las personas que han elegido un modelo determinado de relación
+laboral?}
 \item ¿Qué ocupaciones tienen las personas que se dicen felices? 
 \item ¿Existen diferencias significativas en el nivel de felicidad reportado por hombres y mujeres en
 función del modelo de relación laboral que han elegido?
@@ -163,6 +163,8 @@ Hemos encontrado algunas respuestas.
 \item En segundo lugar, el tipo de relación laborarl no afecta significativamente al nivel de FELICIDAD, SALUD o SEGURIDAD, que en nuestro estudio consideramos como variables influyentes en el BIENESTAR SUBJETIVO.
 \item Por ultimo, pero no por ello menos importante, hemos aprendido que requiere mucho tiempo instalar TEX correctamente en un ordenador con Windows... Jajjajjja
 \end{enumerate}
+
+Los datos analizados revelan tendencias interesantes en la percepción de la felicidad a lo largo de los años. Este análisis puede ser utilizado para futuras investigaciones y políticas públicas.
 
 
 \end{document}
