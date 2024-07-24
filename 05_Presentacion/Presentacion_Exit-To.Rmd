@@ -79,4 +79,30 @@ ggplot(datos_area, aes(x = YEAR, y = count, fill = FELICIDAD)) +
   theme_minimal()
 ```
 
+## Comparación por género de la distribución de la felicidad 
+```{r echo=FALSE, warning=FALSE, message=FALSE , results='hide'}
+
+# Instalar y cargar librerías necesarias
+if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+if (!require("dplyr")) install.packages("dplyr", dependencies = TRUE)
+
+library(ggplot2)
+library(dplyr)
+
+# Crear etiquetas para los valores de la variable 'FELICIDAD'
+categorias_FELICIDAD <- c("Extremadamente infeliz", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Extremadamente feliz")
+
+# Asegurarse de que 'FELICIDAD' es factor con niveles de 0 a 10
+datos_panel_filtrados <- datos_panel_filtrados %>%
+  mutate(FELICIDAD = factor(FELICIDAD, levels = 0:10, labels = categorias_FELICIDAD))
+
+# Crear el histograma desagregado por género con ggplot2
+ggplot(datos_panel_filtrados, aes(x = FELICIDAD)) +
+  geom_histogram(stat = "count", fill = "blue", color = "black", binwidth = 1) +
+  labs(title = "Distribución de la Felicidad por Género", x = "Nivel de Felicidad", y = "Frecuencia") +
+  theme_minimal() +
+  scale_x_discrete(drop = FALSE) +  # Asegura que todos los niveles se muestran
+  facet_wrap(~ GENERO, labeller = labeller(GENERO = c("1" = "Hombres", "2" = "Mujeres")))
+
+```
 

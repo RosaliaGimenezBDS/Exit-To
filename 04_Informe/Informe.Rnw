@@ -1,4 +1,5 @@
-\documentclass{article}
+\documentclass{report}
+
 
 \usepackage{blindtext}
 \usepackage{multicol}
@@ -6,7 +7,7 @@
 \usepackage{blindtext}
 
 \usepackage[spanish]{babel}
-\usepackage[T1]{fontec}
+
 
 \usepackage{geometry}
 \geometry{
@@ -16,58 +17,152 @@
  top=20mm,
 }
 
-\renewcommand´{\refname}{Referencias}
-\renewcommand´{\tablename}{Tabla}
-\renewcommand´{\partname}{Bloque}
 
-\title´{Exit-To}
-\author´{Rosalía Giménez}
-\date´{2024}
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\partname}{Bloque}
 
+\title{Exit-To}
+\author{Rosalía Giménez}
+\date{\Sexpr{Sys.Date()}}
 
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \maketitle
 
-\begin{multicols}{2}
-
-\SweaveOpts{concordance=TRUE}
+% Insertar la tabla de contenidos
+\tableofcontents
 
 \section{Introducción}
+\normalsize
+\begin{multicols}{2}
+En este informe se describe el diseño de un panel de soporte para la toma de decisiones educativas
+y vocacionales. Está pensado para el momento en el que el estudiante y la persona orientadora
+(servicio de orientación escolar, profesorado, familiares) repasan las opciones educativas
+disponibles previamente a realizar la inscripción administrativa en una titulación académica
+determinada.
+Antecedentes.
+En los últimos años, pese a la tendencia a la baja, en
+España mantenemos una tasa de abandono escolar
+temprano superior a la media de la Unión Europea.
+Una de las medidas que podrían mitigar esta situación
+sería la posibilidad de realizar una buena orientación
+vocacional, que mantenga al estudiante con la
+motivación suficiente en el camino hacia el éxito.
+Actualmente, se dispone de muchos sistemas que ofrecen información estadística o vocacional
+centrada en el autoconocimiento. Nuestra aportación sería ofrecer información estadística sobre el
+nivel de bienestar subjetivo que se asocia con determinadas profesiones y regiones en España.
+Se trata de acompañar el momento de la entrevista entre la persona orientadora y cada estudiante,
+utilizando el panel para que conocer mejor la realidad socio-profesional a través de datos
+estadísticos actualizados.
+Además de la información sobre opciones académicas, se pone el énfasis en valorar el bienestar
+subjetivo, frente al económico (retribución) y social (reputacional) que las distintas opciones
+educativas pueden llegar a proporcionar.
+Siendo su público objetivo principal personas en su adolescencia, el estilo de los gráficos debe ser
+claro, fresco y sencillo sin por ello perder rigor en el valor de la información aportada. Con una
+estética tipo “Comic”.
+El rol del orientador es introductorio pero secundario, no se trata de un intermediario, ya que el
+estudiante podrá entender la información por si mismo y consultar el panel de manera autónoma.
+En un primer momento, el adolescente visualiza las opciones desde un ordenador junto con la
+persona orientadora, pero con posterioridad podría acceder desde su propio dispositivo móvil o
+tablet para reflexionar de manera individual sobre su decisión vocacional.
+Para indagar en este aspecto necesitamos datos sobre nivel de estudios y bienestar cruzados.
+Datos que hemos encontrado en el ESS Data Porta l (https://ess.sikt.no/en/?tab=overview)
+\end{multicols}
+
+\section{Tabla}
+
+\begin{figure}[h!]
+\caption{Valores estadísticos de las principales variables del estudio}
+\includegraphics[scale=0.8]{DATOS_FILTRADOS.png}
+\end{figure}
+
+\section{Gráfico}
+
+<< echo=FALSE>>=
+#Cargamos los datos
+#En revisiones posteriores podríamos generar una función que detecte si los datos ya están cargados y no los vuelva a cargar
+source("~/Exit-To/02_Datos/Cargar_Datos_Brutos.R")
+source("~/Exit-To/02_Datos/Depuracion_datos.R")
+@
 
 
-\section{Tablas}
 
+<<grafico, echo=FALSE, fig=TRUE, fig.cap="Gráfico de la evolución de la FELICIDAD en los años de la encuesta ESS",fig.width= 12, fig.height=4, fig.align='right'>>=
 
-<<>>=
-if (!require("tinytex")) {
-  install.packages("tinytex")
-  library("tinytex")
-} else {
-  library("tinytex")
-}
+if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+if (!require("dplyr")) install.packages("dplyr", dependencies = TRUE)
+if (!require("tidyr")) install.packages("tidyr", dependencies = TRUE)
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Supongamos que tus datos están en un dataframe llamado `datos_panel_filtrados`
+# y tienen las columnas `YEAR` (años del ESS) y `FELICIDAD` (niveles de felicidad).
+
+# Transformamos los datos en el formato necesario
+datos_aggregados <- datos_panel_filtrados %>%
+  group_by(YEAR, FELICIDAD) %>%
+  summarise(count = n()) %>%
+  ungroup()
+
+# Aseguramos que los niveles de felicidad están en el orden correcto y que están todos presentes
+datos_aggregados <- datos_aggregados %>%
+  mutate(FELICIDAD = factor(FELICIDAD, levels = c(0:10), 
+                            labels = c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Extremadamente feliz")))
+
+# Convertimos a un formato ancho
+datos_wide <- datos_aggregados %>%
+  pivot_wider(names_from = FELICIDAD, values_from = count, values_fill = list(count = 0))
+
+# Preparamos los datos para el gráfico de área apilada
+datos_area <- datos_wide %>%
+  pivot_longer(cols = -YEAR, names_to = "FELICIDAD", values_to = "count")
+
+# Ordenamos los niveles de felicidad de manera que los niveles más bajos estén en la parte inferior del gráfico
+datos_area <- datos_area %>%
+  mutate(FELICIDAD = factor(FELICIDAD, levels = rev(levels(factor(datos_area$FELICIDAD)))))
+
+# Graficamos el área apilada
+ggplot(datos_area, aes(x = YEAR, y = count, fill = FELICIDAD)) +
+  geom_area() +
+  scale_fill_brewer(palette = "Spectral", direction = -1) +
+  labs(title = "Evolución de la Felicidad en los años del ESS",
+       x = "Año",
+       y = "Frecuencia",
+       fill = "Nivel de Felicidad") +
+  theme_minimal()
+
 
 @
 
 
-<<>>=
-# Establece un mirror de CRAN
-#options(repos = c(CRAN = "https://cloud.r-project.org"))
+\section{Conclusiones}
 
-# Instala y carga las librerías necesarias
-if (!require("knitr")) install.packages("knitr")
-if (!require("tinytex")) {
-  install.packages("tinytex")
-  tinytex::install_tinytex()
-}
-library(knitr)
-library(tinytex)
+Al iniciar este reto nos planteamos una serie de preguntas:
 
-# Verifica que tinytex esté instalado correctamente
-tinytex::is_tinytex()
+\begin{itemize}
+\item \bf ¿Quienes son los más felices? Los empleados, los autónomos o los que trabajan en un negocio
+familiar? ¿Hay diferencias según el genero?
+\item ¿Cómo varían la felicidad, salud y seguridad en las diferentes regiones en los últimos años?
+\item ¿En qué regiones viven las personas más infelices?
+\item ¿Qué regiones presentan niveles más altos de personas que se sienten inseguras?
+\item ¿Cómo podría afectar mi elección académica a mi calidad de vida y felicidad a largo plazo?
+\item \bf ¿Qué nivel de felicidad reportan las personas que han elegido un modelo determinado de relación
+laboral?
+\item ¿Qué ocupaciones tienen las personas que se dicen felices? 
+\item ¿Existen diferencias significativas en el nivel de felicidad reportado por hombres y mujeres en
+función del modelo de relación laboral que han elegido?
+\end{itemize}
 
+Hemos encontrado algunas respuestas. 
 
-@
+\begin{enumerate}
+\item En primer lugar, descubrimos que el nivel medio de felicidad es superior a 7 sobre 10 en general.
+\item En segundo lugar, el tipo de relación laborarl no afecta significativamente al nivel de FELICIDAD, SALUD o SEGURIDAD, que en nuestro estudio consideramos como variables influyentes en el BIENESTAR SUBJETIVO.
+\item Por ultimo, pero no por ello menos importante, hemos aprendido que requiere mucho tiempo instalar TEX correctamente en un ordenador con Windows... Jajjajjja
+\end{enumerate}
 
 
 \end{document}
