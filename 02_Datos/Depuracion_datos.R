@@ -223,7 +223,7 @@ datos_tabla_region_categoricos<- datos_tabla %>% filter(!is.na(REGION))
 # Convertir a DataFrame si es necesario
 datos_tabla_informe <- as.data.frame(datos_tabla_region_numericos)
 
-write_csv(datos_tabla_informe, "02_Datos/datos_tabla_informe.csv")
+#write_csv(datos_tabla_informe, "02_Datos/datos_tabla_informe.csv")
 
 
 #write_csv(datos_con_region, "datos_con_region.csv")

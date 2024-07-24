@@ -1,5 +1,6 @@
 \documentclass{report}
 
+
 \usepackage{blindtext}
 \usepackage{multicol}
 \usepackage{amsmath}
@@ -79,9 +80,15 @@ Datos que hemos encontrado en el ESS Data Porta l (https://ess.sikt.no/en/?tab=o
 
 \section*{Gráfico}
 
+
+
 << echo=FALSE>>=
 #Cargamos los datos
 #En revisiones posteriores podríamos generar una función que detecte si los datos ya están cargados y no los vuelva a cargar
+# Establecer el directorio raíz del proyecto
+#knitr::opts_knit$set(root.dir = here::here())
+
+
 source("~/Exit-To/02_Datos/Cargar_Datos_Brutos.R")
 source("~/Exit-To/02_Datos/Depuracion_datos.R")
 @

@@ -2,7 +2,9 @@
 title: "Presentación Exit-To"
 author: "Rosalía Giménez"
 date: "`r Sys.Date()`"
-output: powerpoint_presentation
+output:
+  slidy_presentation: default
+  powerpoint_presentation: default
 ---
 
 

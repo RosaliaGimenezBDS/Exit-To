@@ -5,12 +5,6 @@
 #---
   
 
-# Instalar el paquete 'here' si no está instalado
-if (!requireNamespace("here", quietly = TRUE)) {
-  install.packages("here")
-}
-
-
 #CARGAMOS LA BASE DE DATOS CON UNA SELECCION AMPLIA DE DATOS QUE NOS PARECEN INTERESANTES
 #En este script podríamos añadir en el futuro una conexión mediante API a ESS para mantener los datos actualizados con nuevas rondas
 
@@ -20,12 +14,8 @@ library(here)
 
 show_col_types = FALSE
 
-# Establecer el directorio raíz del proyecto para todos los chunks
-knitr::opts_knit$set(root.dir = here::here())
-
-#datos_brutos <- read_csv("02_Datos/ESS1e06_7-ESS2e03_6-ESS3e03_7-ESS4e04_6-ESS5e03_5-ESS6e02_6-ESS7e02_3-ESS8e02_3-ESS9e03_2-ESS10SC-subset.csv")
-# Cargar el archivo CSV usando 'here'
-datos_brutos <- read.csv(here("02_Datos", "ESS1e06_7-ESS2e03_6-ESS3e03_7-ESS4e04_6-ESS5e03_5-ESS6e02_6-ESS7e02_3-ESS8e02_3-ESS9e03_2-ESS10SC-subset.csv"))
+#Utilizamor una dirección relativa desde la raiz para que no de error al ejecutar el script desde otros ficheros
+datos_brutos <- read.csv("~/Exit-To/02_Datos/ESS1e06_7-ESS2e03_6-ESS3e03_7-ESS4e04_6-ESS5e03_5-ESS6e02_6-ESS7e02_3-ESS8e02_3-ESS9e03_2-ESS10SC-subset.csv")
 
 
 

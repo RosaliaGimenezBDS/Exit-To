@@ -40,29 +40,18 @@ source("~/Exit-To/02_Datos/Depuracion_datos.R")
 1 - Presentación del proyecto {data-icon="fa-rocket"}
 =======================================================================
 
-*Inputs* ´{.sidebar height=400}
------------------------------------------------------------------------
 
 Este documento fue creado por *Rosalía Giménez*  en el año __2024__
 
-Si lo deseas puedes acceder al fichero README
+Responde al **objetivo** de facilitar información relevante sobre el bienestar subjetivo de la población, en terminos los niveles de FELICIDAD, SALUD y SEGURIDAD, recogidos en las encuestas del ESS en España desde la primera ronda en el 2002.
 
-También puedes generar unas fichas en las que seleccionar año y territorio teniendo como resultado los niveles de felicidad, salud y seguridad.
+Los **objetivos específicos** son:
 
-```{r}
+1. Qué relaciones existen entre la FELICIDAD, la SALUD y la SEGURIDAD. Hemos averiguado que no están correlacionadas y que en general la población expresa unos niveles moderadamente positivos en las tres variables. 
 
-actionButton("showReadme", "Abrir README")
+2. ¿Hay diferencias significativas en el bienestar subjetivo según el tipo de relación laboral (empleados, autónomos o negocio familiar)?
 
-observeEvent(input$showReadme, {
-    showModal(modalDialog(
-      title = "Contenido del README",
-      includeMarkdown("01_README.md"),
-      easyClose = TRUE,
-      footer = NULL
-    ))
-  })
-```
-
+3. ¿Cómo evoluciona el *bienestar subjetivo* con la EDAD?
 
 
 
@@ -339,14 +328,14 @@ Column {.sidebar data-height=150}
 #selectInput("REGION", "Seleccione una Región:", choices = unique(datos_tabla_region_categoricos$REGION))
 #selectInput("AÑO", "Seleccione un Año:", choices = unique(datos_tabla_region_categoricos$YEAR))
 
-selectInput("variable", "Selecciona el Indicador:",
-                  choices = c("Felicidad" = "FELICIDAD", "Salud" = "SALUD", "Seguridad" = "SEGURIDAD"),
-                  selected = "FELICIDAD")  # Establece FELICIDAD como valor predeterminado
+#selectInput("variable", "Selecciona el Indicador:",
+ #                 choices = c("Felicidad" = "FELICIDAD", "Salud" = "SALUD", "Seguridad" = "SEGURIDAD"),
+  #                selected = "FELICIDAD")  # Establece FELICIDAD como valor predeterminado
 
-sliderInput("yearRange", "Rango de Años:",
-                  min = min(datos_panel_filtrados$YEAR), max = max(datos_panel_filtrados$YEAR),
-                  value = c(min(datos_panel_filtrados$YEAR), max(datos_panel_filtrados$YEAR)),
-                  step = 1, sep = "")
+#sliderInput("yearRange", "Rango de Años:",
+ #                 min = min(datos_panel_filtrados$YEAR), max = max(datos_panel_filtrados$YEAR),
+  #                value = c(min(datos_panel_filtrados$YEAR), max(datos_panel_filtrados$YEAR)),
+   #               step = 1, sep = "")
 
 checkboxGroupInput("years", "Selecciona los Años:",
                          choices = unique(datos_panel_filtrados$YEAR),
@@ -360,65 +349,55 @@ actionButton("selectAll", "Seleccionar Todos")
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Evolución del nivel de `r reactive(input$variable)`
+### Evolución del nivel de SALUD del año `r reactive(input$years)`
 
 ```{r}
-#Mapa dinámico por años
-
- renderPlot({
-    # Filtramos los datos según los años seleccionados
-    if (is.null(input$years)) {
-      datos_filtrados <- datos_panel_filtrados
-    } else {
-      datos_filtrados <- datos_panel_filtrados %>%
-        filter(YEAR %in% input$years)
-    }
-    
-    # Transformamos los datos en el formato necesario
-    datoss_aggregados <- datos_filtrados %>%
-      group_by(YEAR, !!sym(input$variable)) %>%
-      summarise(count = n()) %>%
-      ungroup()
-    
-    # Aseguramos que los niveles del indicador están en el orden correcto y que están todos presentes
-    if (input$variable == "FELICIDAD") {
-      levels_order <- c(0:10)
-      labels_order <- c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Extremadamente feliz")
-    } else if (input$variable == "SALUD") {
-      levels_order <- c(1:5)  
-      labels_order <- c("Muy buena", "Buena", "Normal", "Mala", "Muy mala")
-    } else if (input$variable == "SEGURIDAD") {
-      levels_order <- c(1:4)  
-      labels_order <- c("Muy seguro", "Seguro", "Inseguro", "Muy Inseguro")
-    }
-    
-    datoss_aggregados <- datoss_aggregados %>%
-      mutate(Indicador = factor(!!sym(input$variable), levels = levels_order, labels = labels_order))
-    
-    # Convertimos a un formato ancho
-    datoss_wide <- datoss_aggregados %>%
-      pivot_wider(names_from = Indicador, values_from = count, values_fill = list(count = 0))
-    
-    # Preparamos los datos para el gráfico de área apilada
-    datoss_area <- datoss_wide %>%
-      pivot_longer(cols = -YEAR, names_to = "Indicador", values_to = "count")
-    
-    # Ordenamos los niveles del indicador de manera que los niveles más bajos estén en la parte inferior del gráfico
-    datoss_area <- datoss_area %>%
-      mutate(Indicador = factor(Indicador, levels = rev(levels(factor(datoss_area$Indicador)))))
-    
-    # Graficamos el área apilada
-    ggplot(datoss_area, aes(x = YEAR, y = count, fill = Indicador)) +
-      geom_area() +
-      scale_fill_brewer(palette = "Spectral", direction = -1) +
-      labs(title = paste("Evolución de", input$variable, "en los Años del ESS"),
-           x = "Año",
-           y = "Frecuencia",
-           fill = input$variable) +
-      theme_minimal()
-  })
+# Gráfico dinámico simplificado por años
+renderPlot({
+  # Filtramos los datos según los años seleccionados
+  if (is.null(input$years)) {
+    datos_filtrados <- datos_panel_filtrados
+  } else {
+    datos_filtrados <- datos_panel_filtrados %>%
+      filter(YEAR %in% input$years)
+  }
+  
+  # Transformamos los datos en el formato necesario para la variable de SALUD
+  datoss_aggregados <- datos_filtrados %>%
+    group_by(YEAR, SALUD) %>%
+    summarise(count = n()) %>%
+    ungroup()
+  
+  # Aseguramos que los niveles del indicador de SALUD están en el orden correcto y que están todos presentes
+  levels_order <- c(1:5)  
+  labels_order <- c("Muy buena", "Buena", "Normal", "Mala", "Muy mala")
+  
+  datoss_aggregados <- datoss_aggregados %>%
+    mutate(SALUD = factor(SALUD, levels = levels_order, labels = labels_order))
+  
+  # Convertimos a un formato ancho
+  datoss_wide <- datoss_aggregados %>%
+    pivot_wider(names_from = SALUD, values_from = count, values_fill = list(count = 0))
+  
+  # Preparamos los datos para el gráfico de área apilada
+  datoss_area <- datoss_wide %>%
+    pivot_longer(cols = -YEAR, names_to = "SALUD", values_to = "count")
+  
+  # Ordenamos los niveles del indicador de manera que los niveles más bajos estén en la parte inferior del gráfico
+  datoss_area <- datoss_area %>%
+    mutate(SALUD = factor(SALUD, levels = labels_order))  # Usamos labels_order directamente para mantener el orden
+  
+  # Graficamos el área apilada
+  ggplot(datoss_area, aes(x = YEAR, y = count, fill = SALUD)) +
+    geom_area() +
+    scale_fill_brewer(palette = "Spectral", direction = -1) +  # Usa direction = 1 para mantener el orden
+    labs(title = "Evolución de la SALUD en los Años del ESS",
+         x = "Año",
+         y = "Frecuencia",
+         fill = "SALUD") +
+    theme_minimal() +
+    scale_x_continuous(breaks = unique(datoss_area$YEAR))  # Ajustar los ticks del eje x según los años disponibles
+})
 
 ```
-
-
 
