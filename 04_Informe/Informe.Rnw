@@ -75,6 +75,8 @@ Datos que hemos encontrado en el ESS Data Porta l (https://ess.sikt.no/en/?tab=o
 \includegraphics[scale=0.8]{DATOS_FILTRADOS.png}
 \end{figure}
 
+%no hemos conseguido insertar una tabla con código, volverlo a intentar si hay tiempo
+
 \section*{Gráfico}
 
 << echo=FALSE>>=
