@@ -9,6 +9,8 @@ output: powerpoint_presentation
 ```{r echo=FALSE, warning=FALSE, results='hide', message=FALSE}
 #Cargamos los datos
 #En revisiones posteriores podríamos generar una función que detecte si los datos ya están cargados y no los vuelva a cargar
+
+
 source("~/Exit-To/02_Datos/Cargar_Datos_Brutos.R")
 source("~/Exit-To/02_Datos/Depuracion_datos.R")
 ```
@@ -21,12 +23,12 @@ source("~/Exit-To/02_Datos/Depuracion_datos.R")
 
 ## Datos generales sobre la muestra
 
-El número de datos es de 
+ El número de datos es de `r nrow(datos)`.
 
 ```{r echo = FALSE}
 #summary(cars)
 datos_encuesta<-nrow(datos)
-print(datos_encuesta)
+
 
 ```
 
