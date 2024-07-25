@@ -26,6 +26,18 @@ library(maps)
 library(DT)
 library(lorem)
 library(psych)
+
+# Instalar paquetes si no están ya instalados
+if (!require("dplyr")) install.packages("dplyr", dependencies = TRUE)
+if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+if (!require("broom")) install.packages("broom", dependencies = TRUE)
+if (!require("ggpubr")) install.packages("ggpubr", dependencies = TRUE)
+
+# Cargar paquetes
+library(dplyr)
+library(ggplot2)
+library(broom)
+library(ggpubr)
 ```
 
 ```{r message= FALSE}
@@ -50,8 +62,11 @@ Los **objetivos específicos** son:
 1. Qué relaciones existen entre la FELICIDAD, la SALUD y la SEGURIDAD. Hemos averiguado que no están correlacionadas y que en general la población expresa unos niveles moderadamente positivos en las tres variables. 
 
 2. ¿Hay diferencias significativas en el bienestar subjetivo según el tipo de relación laboral (empleados, autónomos o negocio familiar)?
+Encontramos que los Empleados reportan un nivel de **SEGURIDAD** significativamente mayor en comparación con los autónomos.
+No hay diferencias significativas entre empleados y aquellos en negocio familiar, ni entre autónomos y aquellos en negocio familiar, ni para las variables de FELICIDAD y SALUD.
 
-3. ¿Cómo evoluciona el *bienestar subjetivo* con la EDAD?
+3. ¿Cómo ha evolucionado la *SALUD* desde la primera encuesta hasta la última?
+Visualizamos la evolución en el gráfico dinámico y podemos seleccionar los años para delimitar nuestro análisis
 
 
 
@@ -441,6 +456,99 @@ renderPlot({
     theme_minimal() +
     scale_x_continuous(breaks = unique(datoss_area$YEAR))  # Ajustar los ticks del eje x según los años disponibles
 })
+
+```
+
+
+6 - Relaciones entre Bienestar Subjetivo y relación laboral {data-icon="fa-signal"}
+=======================================================================
+
+
+ANOVA {data-width=350}
+--------------------------------------------------------------------------------------------------------
+### FELICIDAD
+
+```{r}
+# Convertir REL_LABORAL a factor para ANOVA
+datos_panel <- datos_panel_filtrados %>%
+  mutate(REL_LABORAL = factor(REL_LABORAL, levels = c(1, 2, 3), 
+                              labels = c("Empleado", "Autónomo", "Negocio familiar")))
+
+# ANOVA para FELICIDAD
+anova_felicidad <- aov(FELICIDAD ~ REL_LABORAL, data = datos_panel)
+summary(anova_felicidad)
+
+
+
+```
+
+
+### SALUD
+
+```{r}
+# ANOVA para SALUD
+anova_salud <- aov(SALUD ~ REL_LABORAL, data = datos_panel)
+summary(anova_salud)
+
+
+
+```
+
+### SEGURIDAD
+
+```{r}
+# ANOVA para SEGURIDAD
+anova_seguridad <- aov(SEGURIDAD ~ REL_LABORAL, data = datos_panel)
+summary(anova_seguridad)
+
+tukey_test <- TukeyHSD(anova_seguridad)
+print(tukey_test)
+
+
+```
+
+
+
+GRAFICOS {data-width=350}
+--------------------------------------------------------------------------------------------------------
+### FELICIDAD
+
+```{r}
+
+
+# Gráfico de cajas
+ggboxplot(datos_panel, x = "REL_LABORAL", y = "FELICIDAD", 
+          color = "REL_LABORAL", palette = "jco", 
+          add = "jitter", 
+          ylab = "Felicidad", xlab = "Relación Laboral")
+
+```
+
+
+### SALUD
+
+```{r}
+
+
+# Gráfico de cajas
+ggboxplot(datos_panel, x = "REL_LABORAL", y = "SALUD", 
+          color = "REL_LABORAL", palette = "jco", 
+          add = "jitter", 
+          ylab = "Salud", xlab = "Relación Laboral")
+
+```
+
+### SEGURIDAD
+
+```{r}
+
+
+# Gráfico de cajas
+ggboxplot(datos_panel, x = "REL_LABORAL", y = "SEGURIDAD", 
+          color = "REL_LABORAL", palette = "jco", 
+          add = "jitter", 
+          ylab = "Seguridad", xlab = "Relación Laboral")
+
 
 ```
 
