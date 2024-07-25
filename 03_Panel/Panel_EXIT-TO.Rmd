@@ -43,7 +43,7 @@ source("~/Exit-To/02_Datos/Depuracion_datos.R")
 
 Este documento fue creado por *Rosalía Giménez*  en el año __2024__
 
-Responde al **objetivo** de facilitar información relevante sobre el bienestar subjetivo de la población, en terminos los niveles de FELICIDAD, SALUD y SEGURIDAD, recogidos en las encuestas del ESS en España desde la primera ronda en el 2002.
+Responde al **objetivo** de facilitar información relevante sobre el bienestar subjetivo de la población, en terminos de los niveles de FELICIDAD, SALUD y SEGURIDAD, expresados en las encuestas del ESS en España desde la primera ronda en el 2002.
 
 Los **objetivos específicos** son:
 
@@ -91,15 +91,45 @@ datatable(medias_por_region_year,
 Column {data-width=450}
 -----------------------------------------------------------------------
 
-### Tabla B {height=400}
+### BIENESTAR SUBJETIVO según grupo de EDAD
 
 ```{r}
-datatable(datos_tabla_informe,
-          caption = 'Datos estadísticos resumen',
-          rownames= T,
-          #filter= 'top',
-          options= list(pageLenth=25))
+library(ggplot2)
+library(dplyr)
+
+
+# Supongamos que tienes un dataframe llamado datos con las columnas EDAD, FELICIDAD, SALUD y SEGURIDAD
+
+
+# Agrupa las edades en grupos de 10 en 10
+datos <- datos_panel_filtrados %>%
+  mutate(EDAD_GRUPO = cut(EDAD, breaks = seq(10, 100, by = 10), right = FALSE))
+
+# Calcula las medias de FELICIDAD, SALUD y SEGURIDAD para cada grupo de edad
+medias <- datos %>%
+  group_by(EDAD_GRUPO) %>%
+  summarise(
+    FELICIDAD = mean(FELICIDAD),
+    SALUD = mean(SALUD),
+    SEGURIDAD = mean(SEGURIDAD)
+  ) %>%
+  pivot_longer(cols = c(FELICIDAD, SALUD, SEGURIDAD), names_to = "VARIABLE", values_to = "VALOR")
+
+# Crear el gráfico de barras horizontales
+ggplot(medias, aes(x = EDAD_GRUPO, y = VALOR, fill = VARIABLE)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  coord_flip() +  # Esto convierte las barras en horizontales
+  labs(
+    title = "Evolución de Felicidad, Salud y Seguridad por Grupos de Edad",
+    x = "Grupos de Edad",
+    y = "Media de las Variables",
+    fill = "Variable"
+  ) +
+  theme_minimal()
+
 ```
+
+
 
 ### Respuesta a la pregunta: ¿Cuál es tu nivel de felicidad de 0 a 10?
 
@@ -332,17 +362,18 @@ Column {.sidebar data-height=150}
  #                 choices = c("Felicidad" = "FELICIDAD", "Salud" = "SALUD", "Seguridad" = "SEGURIDAD"),
   #                selected = "FELICIDAD")  # Establece FELICIDAD como valor predeterminado
 
-#sliderInput("yearRange", "Rango de Años:",
- #                 min = min(datos_panel_filtrados$YEAR), max = max(datos_panel_filtrados$YEAR),
-  #                value = c(min(datos_panel_filtrados$YEAR), max(datos_panel_filtrados$YEAR)),
-   #               step = 1, sep = "")
-
+# #sliderInput("yearRange", "Rango de Años:",
+#  #                 min = min(datos_panel_filtrados$YEAR), max = max(datos_panel_filtrados$YEAR),
+#   #                value = c(min(datos_panel_filtrados$YEAR), max(datos_panel_filtrados$YEAR)),
+#    #               step = 1, sep = "")
+# 
 checkboxGroupInput("years", "Selecciona los Años:",
                          choices = unique(datos_panel_filtrados$YEAR),
                          selected = unique(datos_panel_filtrados$YEAR))
+#actionButton("selectAll", "Seleccionar Todos")
 
-actionButton("selectAll", "Seleccionar Todos")
 
+    
 ```
 
 
@@ -352,6 +383,18 @@ Column {data-width=350}
 ### Evolución del nivel de SALUD del año `r reactive(input$years)`
 
 ```{r}
+
+# Instalar y cargar paquetes necesarios
+if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+if (!require("dplyr")) install.packages("dplyr", dependencies = TRUE)
+if (!require("tidyr")) install.packages("tidyr", dependencies = TRUE)
+if (!require("RColorBrewer")) install.packages("RColorBrewer", dependencies = TRUE)
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(RColorBrewer)  # Para paletas de colores
+
 # Gráfico dinámico simplificado por años
 renderPlot({
   # Filtramos los datos según los años seleccionados
