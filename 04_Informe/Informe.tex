@@ -21,7 +21,9 @@
 
 \title{Exit-To}
 \author{Rosalía Giménez}
-\date{2024-07-24}
+\date{2024-07-25}
+
+
 
 
 \usepackage{Sweave}
@@ -77,21 +79,17 @@ Datos que hemos encontrado en el ESS Data Porta l (https://ess.sikt.no/en/?tab=o
 \includegraphics[scale=0.8]{DATOS_FILTRADOS.png}
 \end{figure}
 
-%no hemos conseguido insertar una tabla con código, volverlo a intentar si hay tiempo
+
+
 
 \section*{Gráfico}
-
-
-
-
-
 
 \includegraphics{Informe-grafico}
 
 
 \section*{Conclusiones}
 
-En este estudio, hemos dispuesto de 14127 sujetos encuestados.
+En este estudio, hemos dispuesto de una base de datos inicial de  19452. Eliminando los outliers el número se redujo a   14127 sujetos encuestados. Para poder cargar los datos en el Panel, tuvimos en cuenta solamente los datos con valores para el campo \emph{regiones}, siendo finalmente  5576 valores.
 
 Al iniciar reto nos planteamos una serie de preguntas:
 
@@ -114,10 +112,29 @@ Hemos encontrado algunas respuestas.
 \begin{enumerate}
 \item En primer lugar, descubrimos que el nivel medio de felicidad es superior a 7 sobre 10 en general.
 \item En segundo lugar, el tipo de relación laborarl no afecta significativamente al nivel de FELICIDAD, SALUD o SEGURIDAD, que en nuestro estudio consideramos como variables influyentes en el BIENESTAR SUBJETIVO.
-\item Por ultimo, pero no por ello menos importante, hemos aprendido que requiere mucho tiempo instalar TEX correctamente en un ordenador con Windows... Jajjajjja
+
 \end{enumerate}
 
 Los datos analizados revelan tendencias interesantes en la percepción de la felicidad a lo largo de los años. Este análisis puede ser utilizado para futuras investigaciones y políticas públicas.
+
+
+%\section*{Tabla generada}
+
+%\begin{table}[h!]
+%\centering
+%\caption{Valores estadísticos de las principales variables del estudio}
+
+
+%<<tabla, echo=FALSE, results='asis'>>=
+%library(xtable)
+%xtable::xtable(datos_panel_Des)
+%@
+
+%\end{table}
+
+
+
+
 
 
 \end{document}

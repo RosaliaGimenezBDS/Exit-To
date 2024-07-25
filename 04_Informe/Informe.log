@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.7.23)  24 JUL 2024 22:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.7.23)  25 JUL 2024 20:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -288,22 +288,22 @@ LaTeX Info: Redefining \% on input line 8.
 )
 \openout1 = `Informe.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Info: Redefining \. on input line 28.
-LaTeX Info: Redefining \% on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Info: Redefining \. on input line 30.
+LaTeX Info: Redefining \% on input line 30.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -406,12 +406,12 @@ LaTeX Info: Redefining \% on input line 1.
 <DATOS_FILTRADOS.png, id=9, 884.30376pt x 357.335pt>
 File: DATOS_FILTRADOS.png Graphic file (type png)
 <use DATOS_FILTRADOS.png>
-Package pdftex.def Info: DATOS_FILTRADOS.png  used on input line 77.
+Package pdftex.def Info: DATOS_FILTRADOS.png  used on input line 79.
 (pdftex.def)             Requested size: 707.44397pt x 285.86838pt.
 <Informe-grafico.pdf, id=11, 433.62pt x 433.62pt>
 File: Informe-grafico.pdf Graphic file (type pdf)
 <use Informe-grafico.pdf>
-Package pdftex.def Info: Informe-grafico.pdf  used on input line 89.
+Package pdftex.def Info: Informe-grafico.pdf  used on input line 87.
 (pdftex.def)             Requested size: 386.95894pt x 386.97923pt.
 
 
@@ -431,23 +431,24 @@ L3 programming layer <2024-05-27>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 5631 strings out of 473584
- 89686 string characters out of 5732363
+ 5633 strings out of 473584
+ 89716 string characters out of 5732363
  1937908 words of memory out of 5000000
- 28447 multiletter control sequences out of 15000+600000
- 567639 words of font info for 56 fonts, out of 8000000 for 9000
+ 28448 multiletter control sequences out of 15000+600000
+ 568325 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,7n,79p,247b,365s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,7n,79p,336b,365s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb><c:/texl
 ive/2024/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><c:/texlive/2024/t
 exmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb><c:/texlive/2024/texmf-dist/
 fonts/type1/public/cm-super/sfrm1000.pfb><c:/texlive/2024/texmf-dist/fonts/type
 1/public/cm-super/sfrm1200.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/c
-m-super/sfrm1728.pfb>
-Output written on Informe.pdf (4 pages, 125655 bytes).
+m-super/sfrm1728.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sf
+ti1000.pfb>
+Output written on Informe.pdf (4 pages, 140383 bytes).
 PDF statistics:
- 58 PDF objects out of 1000 (max. 8388607)
- 34 compressed objects within 1 object stream
+ 63 PDF objects out of 1000 (max. 8388607)
+ 37 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  15 words of extra memory for PDF output out of 10000 (max. 10000000)
 

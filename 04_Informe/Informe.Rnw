@@ -24,9 +24,14 @@
 \date{\Sexpr{Sys.Date()}}
 
 
+
+
 \begin{document}
 \SweaveOpts{concordance=TRUE}
 
+<< echo=FALSE >>=
+knitr::opts_chunk$set(echo=FALSE, fig.height=10, fig.width=10)
+@
 \maketitle
 
 % Insertar la tabla de contenidos
@@ -76,11 +81,6 @@ Datos que hemos encontrado en el ESS Data Porta l (https://ess.sikt.no/en/?tab=o
 \includegraphics[scale=0.8]{DATOS_FILTRADOS.png}
 \end{figure}
 
-%no hemos conseguido insertar una tabla con código, volverlo a intentar si hay tiempo
-
-\section*{Gráfico}
-
-
 
 << echo=FALSE>>=
 #Cargamos los datos
@@ -94,6 +94,7 @@ source("~/Exit-To/02_Datos/Depuracion_datos.R")
 @
 
 
+\section*{Gráfico}
 
 <<grafico, echo=FALSE, fig=TRUE, fig.cap="Gráfico de la evolución de la FELICIDAD en los años de la encuesta ESS",fig.width= 12, fig.height=4, fig.align='right'>>=
 
@@ -147,7 +148,7 @@ ggplot(datos_area, aes(x = YEAR, y = count, fill = FELICIDAD)) +
 
 \section*{Conclusiones}
 
-En este estudio, hemos dispuesto de \Sexpr{nrow(datos_panel_filtrados)} sujetos encuestados.
+En este estudio, hemos dispuesto de una base de datos inicial de  \Sexpr{nrow(datos_brutos)}. Eliminando los outliers el número se redujo a   \Sexpr{nrow(datos_panel_filtrados)} sujetos encuestados. Para poder cargar los datos en el Panel, tuvimos en cuenta solamente los datos con valores para el campo \emph{regiones}, siendo finalmente  \Sexpr{nrow(datos_tabla_informe)} valores.
 
 Al iniciar reto nos planteamos una serie de preguntas:
 
@@ -170,10 +171,29 @@ Hemos encontrado algunas respuestas.
 \begin{enumerate}
 \item En primer lugar, descubrimos que el nivel medio de felicidad es superior a 7 sobre 10 en general.
 \item En segundo lugar, el tipo de relación laborarl no afecta significativamente al nivel de FELICIDAD, SALUD o SEGURIDAD, que en nuestro estudio consideramos como variables influyentes en el BIENESTAR SUBJETIVO.
-\item Por ultimo, pero no por ello menos importante, hemos aprendido que requiere mucho tiempo instalar TEX correctamente en un ordenador con Windows... Jajjajjja
+
 \end{enumerate}
 
 Los datos analizados revelan tendencias interesantes en la percepción de la felicidad a lo largo de los años. Este análisis puede ser utilizado para futuras investigaciones y políticas públicas.
+
+
+%\section*{Tabla generada}
+
+%\begin{table}[h!]
+%\centering
+%\caption{Valores estadísticos de las principales variables del estudio}
+
+
+%<<tabla, echo=FALSE, results='asis'>>=
+%library(xtable)
+%xtable::xtable(datos_panel_Des)
+%@
+
+%\end{table}
+
+
+
+
 
 
 \end{document}
