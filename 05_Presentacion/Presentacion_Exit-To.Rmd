@@ -5,7 +5,15 @@ date: "`r Sys.Date()`"
 output:
   slidy_presentation: default
   powerpoint_presentation: default
+  always_allow_html: true
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(kableExtra)
+library(psych)
+
+```
 
 
 ```{r echo=FALSE, warning=FALSE, results='hide', message=FALSE}
@@ -25,14 +33,33 @@ source("~/Exit-To/02_Datos/Depuracion_datos.R")
 
 ## Datos generales sobre la muestra
 
- El número de datos es de `r nrow(datos)`.
+ El número de datos en la descarga original es de `r nrow(datos)`
+
+ 
 
 ```{r echo = FALSE}
 #summary(cars)
 datos_encuesta<-nrow(datos)
+```
+
+## Tabla
+ 
+```{r echo=FALSE, warning=FALSE, results='show', message=FALSE}
+
+datos_panel.Des<-round(describe(datos_panel),2)
+
+#datos_panel.Des
+
+# Crea la tabla con kableExtra
+datos_panel.Des %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+
 
 
 ```
+
+
 
 ## Gráfica de la evolución de la felicidad en las sucesivas encuestas del ESS
 
@@ -84,6 +111,7 @@ ggplot(datos_area, aes(x = YEAR, y = count, fill = FELICIDAD)) +
 ```
 
 ## Comparación por género de la distribución de la felicidad 
+
 ```{r echo=FALSE, warning=FALSE, message=FALSE , results='hide'}
 
 # Instalar y cargar librerías necesarias
