@@ -38,11 +38,11 @@ Usar técnicas de análisis de datos y visualización para identificar y comunic
 Proporcionar una base de datos clara y visualizaciones que permitan a los estudiantes y orientadores vocacionales comprender las interrelaciones entre estas variables.
 
 
-## CARGA, DEPURACION Y FILTRADO INICIAL DE LOS DATOS
+# CARGA, DEPURACION Y FILTRADO INICIAL DE LOS DATOS
 
 Existen tres ficheros R independientes que se ejecutan con la función source() desde el fichero Panel.rmd
 
-### 1.Cargar_Datos_Brutos
+## 1.Cargar_Datos_Brutos
 
 
 Aunque nos habíamos planteado carga los datos desde la __ESS__, utilizando el usuario de la autora. Descartamos esta opción y se carga el fichero descargado previamente "ESS1e06_7-ESS2e03_6-ESS3e03_7-ESS4e04_6-ESS5e03_5-ESS6e02_6-ESS7e02_3-ESS8e02_3-ESS9e03_2-ESS10SC-subset.csv""
@@ -75,7 +75,7 @@ Con esta estructura, tu código podrá cargar datos de manera eficiente, asegur�
 Aunque en este fichero solamente ejecutamos la carga de los datos, lo mantenemos de manera independiente por su posible evolución futura
 
 
-#### 2.Depuracion_datos
+## 2.Depuracion_datos
 
 
 Dado que disponemos de un gran volumen de datos, procedemos a eliminar todas las filas con missing values que no podemos completar.
@@ -101,9 +101,10 @@ Observamos que algunas rondas no disponen de datos sobre la region y generamos d
 Generamos un subset de datos llamado __datos_panel__ con las variables que utilizaremos en el panel interactivo y proseguimos con la limpieza de datos.
 
 
-#### 3.Desc_Datos_Filtrados
+## 3.Descripción de los datos_panel_filtrados
 
 Eliminamos los outliers para obtener datos descriptivos significativos que faciliten la visualización en el panel
+
 FELICIDAD <= 10
 RELACION LABORAL <= 3
 EDAD <= 70
@@ -112,80 +113,280 @@ SEGURIDAD <=4
 SALUD <= 5
 
 
+y generamos el subset de datos: datos_panel_filtrados con el que trabajaremos para las tablas, análisis y gráficos.
+
+Creamos varios subconjuntos de datos para trabajar con ellos en el panel
+
+Datos filtrados, filtrados con region y sin region.
+
+En el caso de la tabla dinámica del Panel, hemos tenido que genera un subset de dtos más reducido para una mejor carga del mismo. Se trata de datos_tabla_region_categoricos
+
 
 DATOS FILTRADOS
 
 ![DATOS FILTRADOS](imgs/DATOS_FILTRADOS.png)
 
-Creamos varios subconjuntos de datos para trabajar con ellos en el panel
-Datos filtrados, filtrados con region y sin region.
 
 
-### Referencias
+
+## Referencias
 
 #### Paquetes de R utilizados
 
-#### Referencias bibliográficas
+# CRAN -----------------------------------------------------------------------
+- abind               [* -> 1.4-5]
+- askpass             [* -> 1.2.0]
+- backports           [* -> 1.5.0]
+- base64enc           [* -> 0.1-3]
+- bit                 [* -> 4.0.5]
+- bit64               [* -> 4.0.5]
+- bitops              [* -> 1.0-7]
+- blob                [* -> 1.2.4]
+- boot                [* -> 1.3-30]
+- brew                [* -> 1.0-10]
+- brio                [* -> 1.1.5]
+- broom               [* -> 1.0.6]
+- bslib               [* -> 0.7.0]
+- cachem              [* -> 1.1.0]
+- callr               [* -> 3.7.6]
+- car                 [* -> 3.1-2]
+- carData             [* -> 3.0-5]
+- caTools             [* -> 1.18.2]
+- cellranger          [* -> 1.1.0]
+- checkmate           [* -> 2.3.1]
+- class               [* -> 7.3-22]
+- cli                 [* -> 3.6.3]
+- clipr               [* -> 0.8.0]
+- cluster             [* -> 2.1.6]
+- codetools           [* -> 0.2-20]
+- colorspace          [* -> 2.1-0]
+- commonmark          [* -> 1.9.1]
+- corrplot            [* -> 0.92]
+- cowplot             [* -> 1.1.3]
+- cpp11               [* -> 0.4.7]
+- crayon              [* -> 1.5.3]
+- credentials         [* -> 2.0.1]
+- crosstalk           [* -> 1.2.1]
+- crul                [* -> 1.5.0]
+- curl                [* -> 5.2.1]
+- data.table          [* -> 1.15.4]
+- DBI                 [* -> 1.2.3]
+- dbplyr              [* -> 2.5.0]
+- Deriv               [* -> 4.1.3]
+- desc                [* -> 1.4.3]
+- DescTools           [* -> 0.99.54]
+- devtools            [* -> 2.4.5]
+- diffobj             [* -> 0.3.5]
+- digest              [* -> 0.6.36]
+- doBy                [* -> 4.6.22]
+- downlit             [* -> 0.4.4]
+- dplyr               [* -> 1.1.4]
+- DT                  [* -> 0.33]
+- dtplyr              [* -> 1.3.1]
+- e1071               [* -> 1.7-14]
+- effects             [* -> 4.2-2]
+- ellipsis            [* -> 0.3.2]
+- estimability        [* -> 1.5.1]
+- evaluate            [* -> 0.24.0]
+- Exact               [* -> 3.3]
+- expm                [* -> 0.999-9]
+- extrafont           [* -> 0.19]
+- extrafontdb         [* -> 1.0]
+- fansi               [* -> 1.0.6]
+- farver              [* -> 2.1.2]
+- fastmap             [* -> 1.2.0]
+- flexdashboard       [* -> 0.6.2]
+- fontawesome         [* -> 0.5.2]
+- fontBitstreamVera   [* -> 0.1.1]
+- fontLiberation      [* -> 0.1.0]
+- fontquiver          [* -> 0.2.1]
+- forcats             [* -> 1.0.0]
+- foreign             [* -> 0.8-87]
+- Formula             [* -> 1.2-5]
+- fs                  [* -> 1.6.4]
+- gargle              [* -> 1.5.2]
+- gdtools             [* -> 0.3.7]
+- generics            [* -> 0.1.3]
+- gert                [* -> 2.1.0]
+- gfonts              [* -> 0.2.0]
+- ggplot2             [* -> 3.5.1]
+- ggpubr              [* -> 0.6.0]
+- ggrepel             [* -> 0.9.5]
+- ggsci               [* -> 3.2.0]
+- ggsignif            [* -> 0.6.4]
+- gh                  [* -> 1.4.1]
+- gitcreds            [* -> 0.1.2]
+- gld                 [* -> 2.6.6]
+- glue                [* -> 1.7.0]
+- googledrive         [* -> 2.1.1]
+- googlesheets4       [* -> 1.1.1]
+- GPArotation         [* -> 2024.3-1]
+- gplots              [* -> 3.1.3.1]
+- gridExtra           [* -> 2.3]
+- gtable              [* -> 0.3.5]
+- gtools              [* -> 3.9.5]
+- haven               [* -> 2.5.4]
+- highr               [* -> 0.11]
+- HistData            [* -> 0.9-1]
+- Hmisc               [* -> 5.1-3]
+- hms                 [* -> 1.1.3]
+- hrbrthemes          [* -> 0.8.7]
+- htmlTable           [* -> 2.4.3]
+- htmltools           [* -> 0.5.8.1]
+- htmlwidgets         [* -> 1.6.4]
+- httpcode            [* -> 0.3.0]
+- httpuv              [* -> 1.6.15]
+- httr                [* -> 1.4.7]
+- httr2               [* -> 1.0.2]
+- ids                 [* -> 1.0.1]
+- ini                 [* -> 0.3.1]
+- insight             [* -> 0.20.2]
+- isoband             [* -> 0.2.7]
+- jquerylib           [* -> 0.1.4]
+- jsonlite            [* -> 1.8.8]
+- kableExtra          [* -> 1.4.0]
+- KernSmooth          [* -> 2.23-24]
+- knitr               [* -> 1.48]
+- labeling            [* -> 0.4.3]
+- later               [* -> 1.3.2]
+- lattice             [* -> 0.22-6]
+- lazyeval            [* -> 0.2.2]
+- leaps               [* -> 3.2]
+- lifecycle           [* -> 1.0.4]
+- lme4                [* -> 1.1-35.5]
+- lmom                [* -> 3.0]
+- lobstr              [* -> 1.1.2]
+- lorem               [* -> 1.0.0]
+- lubridate           [* -> 1.9.3]
+- magick              [* -> 2.8.4]
+- magrittr            [* -> 2.0.3]
+- maps                [* -> 3.4.2]
+- MASS                [* -> 7.3-60]
+- Matrix              [* -> 1.6-1.1]
+- MatrixModels        [* -> 0.5-3]
+- matrixStats         [* -> 1.3.0]
+- memoise             [* -> 2.0.1]
+- mgcv                [* -> 1.9-1]
+- microbenchmark      [* -> 1.4.10]
+- mime                [* -> 0.12]
+- miniUI              [* -> 0.1.1.1]
+- minqa               [* -> 1.2.7]
+- mitools             [* -> 2.4]
+- mnormt              [* -> 2.1.1]
+- modelr              [* -> 0.1.11]
+- munsell             [* -> 0.5.1]
+- mvtnorm             [* -> 1.2-5]
+- nlme                [* -> 3.1-165]
+- nloptr              [* -> 2.1.1]
+- nnet                [* -> 7.3-19]
+- nortest             [* -> 1.0-4]
+- numDeriv            [* -> 2016.8-1.1]
+- openssl             [* -> 2.2.0]
+- pander              [* -> 0.6.5]
+- patchwork           [* -> 1.2.0]
+- pbkrtest            [* -> 0.5.3]
+- pillar              [* -> 1.9.0]
+- pkgbuild            [* -> 1.4.4]
+- pkgconfig           [* -> 2.0.3]
+- pkgdown             [* -> 2.1.0]
+- pkgload             [* -> 1.4.0]
+- plyr                [* -> 1.8.9]
+- polynom             [* -> 1.4-1]
+- praise              [* -> 1.0.0]
+- prettyunits         [* -> 1.2.0]
+- processx            [* -> 3.8.4]
+- profvis             [* -> 0.3.8]
+- progress            [* -> 1.2.3]
+- promises            [* -> 1.3.0]
+- proxy               [* -> 0.4-27]
+- pryr                [* -> 0.1.6]
+- ps                  [* -> 1.7.7]
+- psych               [* -> 2.4.6.26]
+- purrr               [* -> 1.0.2]
+- quantreg            [* -> 5.98]
+- R6                  [* -> 2.5.1]
+- ragg                [* -> 1.3.2]
+- rappdirs            [* -> 0.3.3]
+- rapportools         [* -> 1.1]
+- rcmdcheck           [* -> 1.4.0]
+- RcmdrMisc           [* -> 2.9-1]
+- RColorBrewer        [* -> 1.1-3]
+- Rcpp                [* -> 1.0.13]
+- RcppArmadillo       [* -> 14.0.0-1]
+- RcppEigen           [* -> 0.3.4.0.0]
+- readr               [* -> 2.1.5]
+- readstata13         [* -> 0.10.1]
+- readxl              [* -> 1.4.3]
+- rematch             [* -> 2.0.0]
+- rematch2            [* -> 2.1.2]
+- remotes             [* -> 2.5.0]
+- renv                [* -> 1.0.7]
+- reprex              [* -> 2.1.1]
+- reshape2            [* -> 1.4.4]
+- rlang               [* -> 1.1.4]
+- rmarkdown           [* -> 2.27]
+- ROCR                [* -> 1.0-11]
+- rootSolve           [* -> 1.8.2.4]
+- roxygen2            [* -> 7.3.2]
+- rpart               [* -> 4.1.23]
+- rprojroot           [* -> 2.0.4]
+- rstatix             [* -> 0.7.2]
+- rstudioapi          [* -> 0.16.0]
+- Rttf2pt1            [* -> 1.3.12]
+- rversions           [* -> 2.1.2]
+- rvest               [* -> 1.0.4]
+- sandwich            [* -> 3.1-0]
+- sass                [* -> 0.4.9]
+- scales              [* -> 1.3.0]
+- selectr             [* -> 0.4-2]
+- sessioninfo         [* -> 1.2.2]
+- shiny               [* -> 1.8.1.1]
+- sourcetools         [* -> 0.1.7-1]
+- SparseM             [* -> 1.84-2]
+- stringi             [* -> 1.8.4]
+- stringr             [* -> 1.5.1]
+- summarytools        [* -> 1.0.1]
+- survey              [* -> 4.4-2]
+- survival            [* -> 3.7-0]
+- svglite             [* -> 2.1.3]
+- sys                 [* -> 3.4.2]
+- systemfonts         [* -> 1.1.0]
+- testthat            [* -> 3.2.1.1]
+- textshaping         [* -> 0.4.0]
+- tibble              [* -> 3.2.1]
+- tidyr               [* -> 1.3.1]
+- tidyselect          [* -> 1.2.1]
+- tidyverse           [* -> 2.0.0]
+- timechange          [* -> 0.3.0]
+- tinytex             [* -> 0.52]
+- triebeard           [* -> 0.4.1]
+- tzdb                [* -> 0.4.0]
+- urlchecker          [* -> 1.0.1]
+- urltools            [* -> 1.7.3]
+- usethis             [* -> 2.2.3]
+- utf8                [* -> 1.2.4]
+- uuid                [* -> 1.2-0]
+- vctrs               [* -> 0.6.5]
+- viridis             [* -> 0.6.5]
+- viridisLite         [* -> 0.4.2]
+- vroom               [* -> 1.6.5]
+- waldo               [* -> 0.5.2]
+- whisker             [* -> 0.4.1]
+- withr               [* -> 3.0.0]
+- xfun                [* -> 0.46]
+- xml2                [* -> 1.3.6]
+- xopen               [* -> 1.0.1]
+- xtable              [* -> 1.8-4]
+- yaml                [* -> 2.3.9]
+- zip                 [* -> 2.3.1]
+- zoo                 [* -> 1.8-12]
+
+#### GitHub ---------------------------------------------------------------------
+- conflicted          [* -> r-lib/conflicted@HEAD]
 
 
-Contenidos para este documento:
+## Referencias bibliográficas
 
-1. Definición del Problema
+Los materiales del módulo 8 del curso de BDS, en particular:
 
-Definir claramente el problema que se desea resolver.
-Establecer los objetivos y metas del proyecto.
-
-2. Recolección de Datos
-
-Recopilar datos relevantes de diversas fuentes.
-Asegurar que los datos sean de buena calidad y relevantes para el problema.
-
-3. Limpieza de Datos
-
-Eliminar duplicados, manejar valores faltantes y corregir errores.
-Estandarizar y normalizar los datos si es necesario.
-
-4. Análisis Exploratorio de Datos (EDA)
-
-Realizar investigaciones iniciales en los datos para descubrir patrones, detectar anomalías y verificar suposiciones.
-Utilizar visualizaciones y métodos estadísticos para comprender mejor los datos.
-
-5. Ingeniería de Características
-
-Crear nuevas características o modificar las existentes para mejorar el rendimiento de los modelos de aprendizaje automático.
-Seleccionar las características más importantes para el modelo.
-
-6. Selección del Modelo
-
-Elegir algoritmos de aprendizaje automático apropiados según el tipo de problema y las características de los datos.
-Comparar diferentes modelos para encontrar el mejor.
-
-7. Entrenamiento del Modelo
-
-Entrenar el(los) modelo(s) seleccionado(s) con los datos de entrenamiento.
-Afinar los parámetros del modelo para optimizar el rendimiento.
-
-8. Evaluación del Modelo
-
-Evaluar el rendimiento del modelo utilizando métricas adecuadas.
-Validar el modelo usando validación cruzada o un conjunto de validación separado.
-
-9. Despliegue del Modelo
-
-Desplegar el modelo en un entorno de producción.
-Asegurar que el modelo se integre sin problemas con los sistemas existentes.
-
-10. Monitoreo y Mantenimiento del Modelo
-
-Monitorear continuamente el rendimiento del modelo en producción.
-Actualizar el modelo según sea necesario para adaptarse a nuevos datos o condiciones cambiantes.
-
-11. Reportes y Comunicación
-
-Documentar todo el proceso, desde la definición del problema hasta el despliegue del modelo.
-Comunicar los hallazgos y resultados a las partes interesadas de manera clara y efectiva.
-
-12. Ciclo de Retroalimentación
-
-Recoger retroalimentación de usuarios y partes interesadas.
-Iterar en el modelo y el flujo de trabajo basado en esta retroalimentación para mejorar el rendimiento y la usabilidad.
+Xie, Y. (2015). Dynamic documents with R and knitr (2nd ed.). Chapman and Hall/CRC.
