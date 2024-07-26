@@ -17,10 +17,10 @@ En este proyecto presentamos un panel con información sobre la relación entre 
 Disponemos de datos de 10 rondas descargados del ESS Survey (https://www.europeansocialsurvey.org/data/) sobre indicadores sociodemográficos solo para España.
 
 ## OBJETIVOS
-### Objetivo del Proyecto
+### Objetivos del Proyecto
 El objetivo de este proyecto de ciencia de datos es analizar y visualizar la relación entre el bienestar subjetivo, medido a través de las variables felicidad, salud y seguridad, y las variables sociodemográficas rel_laboral, género y territorio. Utilizando datos de la Encuesta Social Europea (ESS), se busca identificar patrones y tendencias que puedan ofrecer una comprensión más profunda de cómo estos factores influyen en la percepción del bienestar de los individuos.
+Se encuentran presentados en la primera página del panel.
 
-#### Objetivos específicos
 ##### Analizar el Bienestar Subjetivo:
 
 Felicidad: Evaluar cómo la percepción de felicidad varía entre diferentes grupos demográficos y laborales.
@@ -390,3 +390,12 @@ DATOS FILTRADOS
 Los materiales del módulo 8 del curso de BDS, en particular:
 
 Xie, Y. (2015). Dynamic documents with R and knitr (2nd ed.). Chapman and Hall/CRC.
+
+#### Aprendizaje adquirido con este ejercicio de reproducibilidad
+
+Diría que como ejercicio no he conseguido unos resultados óptimos. 
+He aprendido muchísimo con este ejercicio.
+Aunque no esté satisfecha con los resultados, la verdad es que sí me siento satisfecha con todo lo que he llegado a realizar en mi primer ejercicio con todas estas herramientas.
+Me ha resultado muy útil, explorar en las versiones anteriores en el apartado COMMITS de GITHUB para encontrar dónde había empezado a fallar el código en la creación del fichero .ppt de la presentación.
+He podido volver atrás y por eso he creado dos documentos por separado uno para la presentación en .ppt y otro en .html, porque no he conseguido un código capaz de ejecutar los dos simultáneamente.
+

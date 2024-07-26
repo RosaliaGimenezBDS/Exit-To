@@ -177,6 +177,7 @@ Hemos encontrado algunas respuestas.
 Los datos analizados revelan tendencias interesantes en la percepción de la felicidad a lo largo de los años. Este análisis puede ser utilizado para futuras investigaciones y políticas públicas.
 
 
+
 %\section*{Tabla generada}
 
 %\begin{table}[h!]
